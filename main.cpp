@@ -35,6 +35,7 @@ unsigned int texturaVerdePeludo;
 unsigned int texturaTecidoBranco;
 unsigned int texturaCeramicaBranca;
 unsigned int texturaAgua;
+unsigned int texturaPoteAmarelo;
 
 unsigned int loadTexture(const char *path)
 {
@@ -154,6 +155,7 @@ int main()
     texturaTecidoBranco = loadTexture("assets/textures/tecidoBranco.jpg");
     texturaCeramicaBranca = loadTexture("assets/textures/ceramica.jpg");
     texturaAgua = loadTexture("assets/textures/agua.jpg");
+    texturaPoteAmarelo = loadTexture("assets/textures/Amarelo.jpg");
 
     shader.setInt("texture1", 0);
 
@@ -172,10 +174,10 @@ int main()
                       0.0f);
 
 
-    /*Cube paredeBanheiro(glm::vec3(-1.2f, 0.0f, -3.0f),   // posição centralizada com o banheiro
+    Cube paredeBanheiro(glm::vec3(-1.2f, 0.75f, -2.5f),   // posição centralizada com o banheiro
     glm::vec3(0.0f),
-    glm::vec3(0.1f, 3.0f, 2.5f),     // largura fina, altura 3, comprimento do banheiro
-    0.0f); */
+    glm::vec3(0.1f, 1.5f, 2.5f),     // largura fina, altura 3, comprimento do banheiro
+    0.0f);
 
     //Banheiro
 
@@ -190,6 +192,23 @@ int main()
     tv.rotation   = glm::vec3(0.0f, 180.0f, 0.0f);
 
     //Quarto cama + rack
+
+
+    // Mesa centralizada em frente ao banheiro
+    Table mesa(glm::vec3(-1.5f, 0.0f, 1.5f));
+
+    // Cadeiras ao redor
+    Chair cadeira1(glm::vec3(-1.5f, 0.0f, 1.2f));  // esquerda
+    Chair cadeira2(glm::vec3(-0.7f, 0.0f, 1.3f));  // direita
+    Chair cadeira3(glm::vec3(-1.5f, 0.0f, 1.7f));  // atrás
+    Chair cadeira4(glm::vec3(-1.5f, 0.0f, 1.3f));   // frente
+
+    // Rotacionar as cadeiras para ficarem viradas para a mesa
+    cadeira1.rotation = glm::vec3(0.0f, 90.0f, 0.0f);
+    cadeira2.rotation = glm::vec3(0.0f, -90.0f, 0.0f);
+    cadeira3.rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+    cadeira4.rotation = glm::vec3(0.0f, 180.0f, 0.0f);
+
 
     while (!glfwWindowShouldClose(window))
     {
@@ -216,23 +235,30 @@ int main()
 
         casa.draw(shader, model);
 
-        //Banheiro
+        // ==============================
+        //  Banheiro
+        // ==============================
 
         glBindTexture(GL_TEXTURE_2D, texturaCeramicaBranca);
         vaso.draw(shader, model);
         pia.draw(shader, model);
 
-        /* Parede do banheiro
+         //Parede do banheiro
+
         glBindTexture(GL_TEXTURE_2D, texturaMadeiraEscura); // ou stoneTex, se quiser um visual mais sólido
-        paredeBanheiro.draw(shader, model); */
+        paredeBanheiro.draw(shader, model);
 
         // Piso do banheiro
         glBindTexture(GL_TEXTURE_2D, texturaPisoBanheiro);
         pisoBanheiro.draw(shader, model);
 
-        //Banheiro
+        // ==============================
+        //  Banheiro
+        // ==============================
 
+        // ==============================
         //Quarto cama + rack
+        // ==============================
 
         glBindTexture(GL_TEXTURE_2D, texturaMadeiraClara);
         rack.draw(shader, model);
@@ -243,8 +269,31 @@ int main()
         glBindTexture(GL_TEXTURE_2D, texturaTecidoBranco);
         cama.draw(shader, model);
 
+        // ==============================
         //Quarto cama + rack
+        // ==============================
 
+        // ==============================
+        //  Sala de jantar (mesa + cadeiras)
+        // ==============================
+
+        mesa.draw(shader, model);
+        mesa.scale = glm::vec3(1.0f);
+
+        cadeira1.draw(shader, model);
+        cadeira1.scale = glm::vec3(0.85f);
+
+        //cadeira2.draw(shader, model);
+        //cadeira2.scale = glm::vec3(0.85f);
+
+        //cadeira3.draw(shader, model);
+        //cadeira3.scale = glm::vec3(0.85f);
+
+        //cadeira4.draw(shader, model);
+
+        // ==============================
+        //  Sala de jantar (mesa + cadeiras)
+        // ==============================
 
         glfwSwapBuffers(window);
         glfwPollEvents();
