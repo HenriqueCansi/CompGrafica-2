@@ -50,8 +50,18 @@ void Tv::init()
 
 void Tv::draw(Shader &shader, glm::mat4 model)
 {
-    model = glm::translate(model, position);
+
+      model = glm::translate(model, position);
+
+    // aplica rotações Euler (graus -> radianos)
+    model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+
     model = glm::scale(model, scale);
+
+    //model = glm::translate(model, position);
+    //model = glm::scale(model, scale);
 
     // Moldura metálica e suporte
     glBindTexture(GL_TEXTURE_2D, texturaInox);

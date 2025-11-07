@@ -166,17 +166,31 @@ int main()
     Toilet vaso(glm::vec3(-3.25f, 0.0f, -3.0f));   // canto bem colado
     Sink pia(glm::vec3(-2.0f, 0.0f, -3.0f));
 
-   Cube pisoBanheiro(glm::vec3(-2.5f, 0.04f, -2.5f),
-                  glm::vec3(0.0f),
-                  glm::vec3(2.5, 0.02f, 2.5f),
-                  0.0f);
+    Cube pisoBanheiro(glm::vec3(-2.5f, 0.04f, -2.5f),
+                      glm::vec3(0.0f),
+                      glm::vec3(2.5, 0.02f, 2.5f),
+                      0.0f);
 
 
-   /*Cube paredeBanheiro(glm::vec3(-1.2f, 0.0f, -3.0f),   // posição centralizada com o banheiro
-   glm::vec3(0.0f),
-   glm::vec3(0.1f, 3.0f, 2.5f),     // largura fina, altura 3, comprimento do banheiro
-   0.0f); */
-    // Loop principal
+    /*Cube paredeBanheiro(glm::vec3(-1.2f, 0.0f, -3.0f),   // posição centralizada com o banheiro
+    glm::vec3(0.0f),
+    glm::vec3(0.1f, 3.0f, 2.5f),     // largura fina, altura 3, comprimento do banheiro
+    0.0f); */
+
+    //Banheiro
+
+    //Quarto cama + rack
+
+    Bed cama(glm::vec3(2.8f, 0.0f, -2.25f));      // cama no canto direito traseiro
+    Rack rack(glm::vec3(2.8f, 0.0f, 1.0f));     // rack à frente da cama
+    Tv tv(glm::vec3(2.8f, 0.4f, 1.0f));        // tv em cima do rack
+
+    // Rotacionar rack e TV para olhar para a cama
+    rack.rotation = glm::vec3(0.0f, 180.0f, 0.0f);
+    tv.rotation   = glm::vec3(0.0f, 180.0f, 0.0f);
+
+    //Quarto cama + rack
+
     while (!glfwWindowShouldClose(window))
     {
         float currentFrame = glfwGetTime();
@@ -203,6 +217,7 @@ int main()
         casa.draw(shader, model);
 
         //Banheiro
+
         glBindTexture(GL_TEXTURE_2D, texturaCeramicaBranca);
         vaso.draw(shader, model);
         pia.draw(shader, model);
@@ -214,7 +229,22 @@ int main()
         // Piso do banheiro
         glBindTexture(GL_TEXTURE_2D, texturaPisoBanheiro);
         pisoBanheiro.draw(shader, model);
+
         //Banheiro
+
+        //Quarto cama + rack
+
+        glBindTexture(GL_TEXTURE_2D, texturaMadeiraClara);
+        rack.draw(shader, model);
+
+        glBindTexture(GL_TEXTURE_2D, blackTex);
+        tv.draw(shader, model);
+
+        glBindTexture(GL_TEXTURE_2D, texturaTecidoBranco);
+        cama.draw(shader, model);
+
+        //Quarto cama + rack
+
 
         glfwSwapBuffers(window);
         glfwPollEvents();

@@ -59,7 +59,10 @@ void Rack::init()
 void Rack::draw(Shader &shader, glm::mat4 model)
 {
     model = glm::translate(model, position);
-    model = glm::scale(model, scale);
+
+    model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
 
     // Madeira
     glBindTexture(GL_TEXTURE_2D, texturaMadeiraEscura);
