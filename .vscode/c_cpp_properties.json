@@ -1,0 +1,19 @@
+{
+  "configurations": [
+    {
+      "name": "Win32",
+      "includePath": [
+        "${workspaceFolder}\\include",
+        "D:\\escola\\cpplibs\\glew-2.1.0\\include",
+        "D:\\escola\\cpplibs\\glfw-3.4.bin.WIN64\\include",
+        "D:\\escola\\cpplibs\\glm-1.0.2"
+      ],
+      "defines": ["_DEBUG", "UNICODE", "_UNICODE"],
+      "compilerPath": "C:/Users/fupic/scoop/apps/mingw/current/bin/g++.exe",
+      "cStandard": "c17",
+      "cppStandard": "gnu++17",
+      "intelliSenseMode": "windows-gcc-x64"
+    }
+  ],
+  "version": 4
+}
