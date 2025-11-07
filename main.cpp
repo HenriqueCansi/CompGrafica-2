@@ -21,8 +21,9 @@
 #include <Toilet.h>
 #include <Sink.h>
 #include <Rack.h>
+#include <Casa.h>
 
-// 🔹 Definições globais (torna visíveis para outros .cpp)
+// 🔹 Texturas globais
 unsigned int stoneTex;
 unsigned int woodTex;
 unsigned int lightWoodTex;
@@ -34,6 +35,7 @@ unsigned int texturaTecidoBranco;
 unsigned int texturaCeramicaBranca;
 unsigned int texturaAgua;
 
+// 🔹 Função para carregar textura
 unsigned int loadTexture(const char *path)
 {
     unsigned int texture;
@@ -62,25 +64,48 @@ unsigned int loadTexture(const char *path)
     return texture;
 }
 
+// Variáveis de câmera
 glm::vec3 cameraPos = glm::vec3(25.0f, 1.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
-float sensitivity = 25.0f;
 float yaw = -90.0f;
 float pitch = 0.0f;
+float lastX = 800.0f / 2.0f;
+float lastY = 450.0f / 2.0f;
+bool firstMouse = true;
 
-float deltaTime = 0.0f; // tempo entre frames
+float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-void viraCamera(float x, float y)
+// Controle da visão com o mouse
+void viraCamera(double xpos, double ypos)
 {
-    yaw += x * sensitivity * deltaTime;
-    pitch += y * sensitivity * deltaTime;
+    const float sensitivity = 0.1f;
+
+    if (firstMouse)
+    {
+        lastX = xpos;
+        lastY = ypos;
+        firstMouse = false;
+    }
+
+    float xoffset = xpos - lastX;
+    float yoffset = lastY - ypos;
+    lastX = xpos;
+    lastY = ypos;
+
+    xoffset *= sensitivity;
+    yoffset *= sensitivity;
+
+    yaw += xoffset;
+    pitch += yoffset;
+
     if (pitch > 89.0f)
         pitch = 89.0f;
     if (pitch < -89.0f)
         pitch = -89.0f;
+
     glm::vec3 direction;
     direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
     direction.y = sin(glm::radians(pitch));
@@ -88,13 +113,20 @@ void viraCamera(float x, float y)
     cameraFront = glm::normalize(direction);
 }
 
+// Callback do mouse
+void mouse_callback(GLFWwindow *window, double xpos, double ypos)
+{
+    viraCamera(xpos, ypos);
+}
+
+// Controle de movimento
 void processInput(GLFWwindow *window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
-    const float cameraSpeed = 2.0f * deltaTime;
-    // ajustar de acordo com a velocidade do computador
+    float cameraSpeed = 5.0f * deltaTime; // mais rápido e fluido
+
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         cameraPos += cameraSpeed * cameraFront;
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -104,65 +136,44 @@ void processInput(GLFWwindow *window)
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-        cameraPos += glm::vec3(0.0f, 1.0f, 0.0f) * cameraSpeed;
+        cameraPos.y += cameraSpeed;
     if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
-        cameraPos += glm::vec3(0.0f, -1.0f, 0.0f) * cameraSpeed;
-
-    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-        viraCamera(0.0f, 1.0f);
-    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-        viraCamera(0.0f, -1.0f);
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-        viraCamera(-1.0f, 0.0f);
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-        viraCamera(1.0f, 0.0f);
+        cameraPos.y -= cameraSpeed;
 }
 
+// Função principal
 int main()
 {
     Application app(640, 360, "Scene with All Objects");
     if (!app.init())
         return -1;
 
+    GLFWwindow *window = app.getWindow();
+
+    // Configura captura do mouse
+    glfwSetCursorPosCallback(window, mouse_callback);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
     Shader shader("vertex.glsl", "fragment.glsl");
     shader.use();
     glEnable(GL_DEPTH_TEST);
 
-    // carrega texturas
+    // Carrega texturas
     stoneTex = loadTexture("stone.png");
-    if (!stoneTex)
-        std::cout << "Failed to load stone texture!\n";
     woodTex = loadTexture("wood.png");
-    if (!woodTex)
-        std::cout << "Failed to load wood texture!\n";
     lightWoodTex = loadTexture("lightwood.png");
-    if (!lightWoodTex)
-        std::cout << "Failed to load light wood texture!\n";
     steelTex = loadTexture("steel.png");
-    if (!steelTex)
-        std::cout << "Failed to load steel texture!\n";
     blackTex = loadTexture("black.png");
-    if (!blackTex)
-        std::cout << "Failed to load black texture!\n";
     tecidoSofa = loadTexture("assets/textures/tecido_sofa.jpg");
-    if (!tecidoSofa)
-        std::cout << "Failed to load green fabric texture!\n";
     texturaVerdePeludo = loadTexture("assets/textures/verde-peludo.jpg");
-    if (!texturaVerdePeludo)
-        std::cout << "Failed to load red fabric texture!\n";
     texturaTecidoBranco = loadTexture("assets/textures/tecidoBranco.jpg");
-    if (!texturaTecidoBranco)
-        std::cout << "Failed to load white fabric texture!\n";
     texturaCeramicaBranca = loadTexture("assets/textures/ceramica.jpg");
-    if (!texturaCeramicaBranca)
-        std::cout << "Failed to load white ceramic texture!\n";
     texturaAgua = loadTexture("assets/textures/agua.jpg");
-    if (!texturaAgua)
-        std::cout << "Failed to load water ripple texture!\n";
 
     shader.setInt("texture1", 0);
 
-    // criação de objetos (EXEMPLO)
+    // Cria objetos
+
     Cube cube(glm::vec3(-7.5f, 0.5f, 0.0f));
     TriangularPrism prism(glm::vec3(-5.0f, 0.5f, 0.0f));
     Cylinder cylinder(glm::vec3(-2.5f, 0.5f, 0.0f));
@@ -170,7 +181,7 @@ int main()
     Chair chair(glm::vec3(2.5f, 0.0f, 0.0f));
     Cabinet cabinet(glm::vec3(5.0f, 0.0f, 0.0f));
     Table table(glm::vec3(7.5f, 0.0f, 0.0f));
-    Geladeira Geladeira(glm::vec3(10.0f, 0.0f, 0.0f));
+    Geladeira geladeira(glm::vec3(10.0f, 0.0f, 0.0f));
     Stove stove(glm::vec3(12.5f, 0.0f, 0.0f));
     Sofa sofa(glm::vec3(15.0f, 0.0f, 0.0f));
     Rack rack(glm::vec3(17.5f, 0.0f, 0.0f));
@@ -178,38 +189,31 @@ int main()
     Bed bed(glm::vec3(20.0f, 0.0f, 0.0f));
     Toilet toilet(glm::vec3(22.5f, 0.0f, 0.0f));
     Sink sink(glm::vec3(25.0f, 0.0f, 0.0f));
+    Casa casa(glm::vec3(0.0f, 0.0f, 0.0f));
 
-    GLFWwindow *window = app.getWindow();
-
-    viraCamera(0.0f, 0.0f);
-
-    // loop de renderização
+    // Loop principal
     while (!glfwWindowShouldClose(window))
     {
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
+        processInput(window);
+
         glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         shader.use();
         glActiveTexture(GL_TEXTURE0);
 
-        // câmera e matrizes
-        glm::mat4 projection = glm::perspective(glm::radians(45.0f),
-                                                1600.0f / 900.0f, 0.1f, 100.0f);
-        glm::mat4 view;
-
-        processInput(window);
-
-        deltaTime = glfwGetTime() - lastFrame;
-        lastFrame = glfwGetTime();
-
-        view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-
+        glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1600.0f / 900.0f, 0.1f, 100.0f);
+        glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         shader.setMat4("projection", projection);
         shader.setMat4("view", view);
 
         glm::mat4 model = glm::mat4(1.0f);
 
-        // primitivos
+        // Desenha tudo
         glBindTexture(GL_TEXTURE_2D, stoneTex);
         cube.draw(shader, model);
         prism.draw(shader, model);
@@ -219,7 +223,7 @@ int main()
         chair.draw(shader, model);
         cabinet.draw(shader, model);
         table.draw(shader, model);
-        Geladeira.draw(shader, model);
+        geladeira.draw(shader, model);
         stove.draw(shader, model);
         sofa.draw(shader, model);
         rack.draw(shader, model);
@@ -227,8 +231,9 @@ int main()
         bed.draw(shader, model);
         toilet.draw(shader, model);
         sink.draw(shader, model);
+        casa.draw(shader, model);
 
-        glfwSwapBuffers(app.getWindow());
+        glfwSwapBuffers(window);
         glfwPollEvents();
     }
 

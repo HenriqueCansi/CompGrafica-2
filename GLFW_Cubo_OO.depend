@@ -2507,3 +2507,290 @@
 	"Cube.h"
 	"Cylinder.h"
 
+1762519537 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\main.cpp
+	<GL/glew.h>
+	<GLFW/glfw3.h>
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<stb_image.h>
+	<iostream>
+	<Shader.h>
+	<Application.h>
+	<Cube.h>
+	<TriPrism.h>
+	<Cylinder.h>
+	<Sphere.h>
+	<Chair.h>
+	<Cabinet.h>
+	<Table.h>
+	<Geladeira.h>
+	<Stove.h>
+	<Sofa.h>
+	<Tv.h>
+	<Bed.h>
+	<Toilet.h>
+	<Sink.h>
+	<Rack.h>
+	<Casa.h>
+
+1762515953 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\stb_image.h
+	"stb_image.h"
+	<stdio.h>
+	<stdlib.h>
+	<stdarg.h>
+	<stddef.h>
+	<stdlib.h>
+	<string.h>
+	<limits.h>
+	<math.h>
+	<stdio.h>
+	<assert.h>
+	<stdint.h>
+	<emmintrin.h>
+	<intrin.h>
+	<arm_neon.h>
+
+1762456476 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\shader.h
+	<GL/glew.h>
+	<glm/glm.hpp>
+	<string>
+	<fstream>
+	<sstream>
+	<iostream>
+
+1762456476 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\application.h
+	<GL/glew.h>
+	<GLFW/glfw3.h>
+	<string>
+
+1762456476 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\cube.h
+	"Shader.h"
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<Object.h>
+
+1762473168 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\object.h
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<vector>
+	"Shader.h"
+
+1762456476 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\triprism.h
+	"Object.h"
+	"Shader.h"
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+
+1762456476 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\cylinder.h
+	"Object.h"
+	"Shader.h"
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<vector>
+
+1762456476 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\sphere.h
+	"Object.h"
+	"Shader.h"
+	<glm/glm.hpp>
+	<vector>
+
+1762456476 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\chair.h
+	"Object.h"
+	"Cube.h"
+	"Cylinder.h"
+	"Shader.h"
+	<vector>
+	<memory>
+
+1762456476 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\cabinet.h
+	"Object.h"
+	"Cube.h"
+	"Cylinder.h"
+	<vector>
+	<memory>
+
+1762456476 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\table.h
+	"Object.h"
+	"Cube.h"
+	"Cylinder.h"
+	<vector>
+	<memory>
+
+1762473889 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\geladeira.h
+	"Object.h"
+	"Cube.h"
+	"Cylinder.h"
+	<vector>
+	<memory>
+	<vector>
+	<memory>
+
+1762456476 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\stove.h
+	"Object.h"
+	"Cube.h"
+	"Cylinder.h"
+	<vector>
+	<memory>
+
+1762456476 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\sofa.h
+	"Object.h"
+	"Cube.h"
+	"Cylinder.h"
+	<vector>
+	<memory>
+
+1762456476 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\tv.h
+	"Object.h"
+	"Cube.h"
+	"Cylinder.h"
+	<vector>
+	<memory>
+
+1762456476 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\bed.h
+	"Object.h"
+	"Cube.h"
+	"Cylinder.h"
+	<vector>
+	<memory>
+
+1762456476 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\toilet.h
+	"Object.h"
+	"Cube.h"
+	"Cylinder.h"
+	<vector>
+	<memory>
+
+1762456476 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\sink.h
+	"Object.h"
+	"Cube.h"
+	"Cylinder.h"
+	<vector>
+	<memory>
+
+1762473354 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\rack.h
+	"Object.h"
+	"Cube.h"
+	"Cylinder.h"
+	<vector>
+	<memory>
+	"Object.h"
+
+1762456474 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\application.cpp
+	"Application.h"
+	<iostream>
+
+1762456474 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\banrisul.cpp
+	"Banrisul.h"
+	"Cube.h"
+
+1762456476 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\banrisul.h
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	"Object.h"
+	"Shader.h"
+	<vector>
+	<memory>
+
+1762474210 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\cabinet.cpp
+	"Cabinet.h"
+	<GL/glew.h>
+
+1762456475 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\chair.cpp
+	"Chair.h"
+	<GL/glew.h>
+
+1762456475 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\cube.cpp
+	"Cube.h"
+
+1762456475 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\cylinder.cpp
+	"Cylinder.h"
+	<cmath>
+
+1762456475 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\mesh.cpp
+	"Mesh.h"
+
+1762456476 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\mesh.h
+	<GL/glew.h>
+
+1762456475 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\object.cpp
+	"Object.h"
+	<glm/gtc/matrix_transform.hpp>
+	<glm/gtc/type_ptr.hpp>
+
+1762456475 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\sphere.cpp
+	"Sphere.h"
+	<cmath>
+
+1762515518 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\stb_image.cpp
+	"stb_image.h"
+
+1762518007 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\table.cpp
+	"Table.h"
+	<GL/glew.h>
+	<memory>
+	"Cube.h"
+	"Cylinder.h"
+	"Sphere.h"
+
+1762456475 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\texture.cpp
+	"Texture.h"
+	<stb_image.h>
+	<iostream>
+
+1762456476 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\texture.h
+	<GL/glew.h>
+	<string>
+
+1762456475 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\triprism.cpp
+	"TriPrism.h"
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+
+1762471254 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\bed.cpp
+	"Bed.h"
+	<GL/glew.h>
+
+1762473970 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\geladeira.cpp
+	"Geladeira.h"
+	<GL/glew.h>
+	<memory>
+	"Cube.h"
+	"Cylinder.h"
+
+1762473254 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\rack.cpp
+	"Rack.h"
+	<GL/glew.h>
+	<memory>
+	"Cube.h"
+
+1762470397 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\sink.cpp
+	"Sink.h"
+	<GL/glew.h>
+
+1762459804 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\sofa.cpp
+	"Sofa.h"
+	<GL/glew.h>
+
+1762472237 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\toilet.cpp
+	"Toilet.h"
+	<GL/glew.h>
+
+1762472658 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\tv.cpp
+	"Tv.h"
+	<GL/glew.h>
+
+1762474571 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\stove.cpp
+	"Stove.h"
+	<GL/glew.h>
+
+1762475988 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\casa.cpp
+	"Casa.h"
+	<GL/glew.h>
+
+1762519346 c:\estudo\2025b\grafica\tde2\compgrafica-2\include\casa.h
+	"Object.h"
+	"Cube.h"
+	"Cylinder.h"
+	<vector>
+	<memory>
+

@@ -1,11 +1,8 @@
 #include "Casa.h"
 #include <GL/glew.h>
 
-// Texturas usadas na casa
-extern unsigned int texturaParede;
-extern unsigned int texturaChao;
-extern unsigned int texturaMadeiraPorta;
-extern unsigned int texturaJanelaVidro;
+extern unsigned int stoneTex;
+extern unsigned int woodTex;
 
 Casa::Casa(glm::vec3 pos)
     : Object(pos, glm::vec3(0.0f), glm::vec3(1.0f), 0.0f)
@@ -15,60 +12,45 @@ Casa::Casa(glm::vec3 pos)
 
 void Casa::init()
 {
-    // Piso
+    float wallHeight = 3.0f;
+    float wallThickness = 0.1f;
+    float width = 20.0f;   // largura total da casa (eixo X)
+    float depth = 15.0f;   // profundidade total da casa (eixo Z)
+
+    //  CHÃO
     parts.push_back(std::make_unique<Cube>(
         glm::vec3(0.0f, 0.0f, 0.0f),
         glm::vec3(0.0f),
-        glm::vec3(8.0f, 0.1f, 8.0f),
+        glm::vec3(width, 0.1f, depth),
         0.0f));
 
-    // Parede traseira
+    //  PAREDES
+    // Parede de trás
     parts.push_back(std::make_unique<Cube>(
-        glm::vec3(0.0f, 2.5f, -4.0f),
+        glm::vec3(0.0f, wallHeight / 2.0f, -depth / 2.0f),
         glm::vec3(0.0f),
-        glm::vec3(8.0f, 5.0f, 0.2f),
+        glm::vec3(width, wallHeight, wallThickness),
         0.0f));
 
-    // Parede frontal (com abertura de porta)
+    // Parede da frente
     parts.push_back(std::make_unique<Cube>(
-        glm::vec3(-2.0f, 2.5f, 4.0f),
+        glm::vec3(0.0f, wallHeight / 2.0f, depth / 2.0f),
         glm::vec3(0.0f),
-        glm::vec3(4.0f, 5.0f, 0.2f),
-        0.0f));
-
-    // Parede frontal direita (depois da porta)
-    parts.push_back(std::make_unique<Cube>(
-        glm::vec3(3.0f, 2.5f, 4.0f),
-        glm::vec3(0.0f),
-        glm::vec3(2.0f, 5.0f, 0.2f),
+        glm::vec3(width, wallHeight, wallThickness),
         0.0f));
 
     // Parede esquerda
     parts.push_back(std::make_unique<Cube>(
-        glm::vec3(-4.0f, 2.5f, 0.0f),
+        glm::vec3(-width / 2.0f, wallHeight / 2.0f, 0.0f),
         glm::vec3(0.0f),
-        glm::vec3(0.2f, 5.0f, 8.0f),
+        glm::vec3(wallThickness, wallHeight, depth),
         0.0f));
 
-    // Parede direita (com uma janela)
+    // Parede direita
     parts.push_back(std::make_unique<Cube>(
-        glm::vec3(4.0f, 2.5f, 0.0f),
+        glm::vec3(width / 2.0f, wallHeight / 2.0f, 0.0f),
         glm::vec3(0.0f),
-        glm::vec3(0.2f, 5.0f, 8.0f),
-        0.0f));
-
-    // Porta
-    parts.push_back(std::make_unique<Cube>(
-        glm::vec3(0.5f, 1.25f, 4.1f),
-        glm::vec3(0.0f),
-        glm::vec3(1.5f, 2.5f, 0.1f),
-        0.0f));
-
-    // Janela (vidro)
-    parts.push_back(std::make_unique<Cube>(
-        glm::vec3(4.05f, 2.8f, -1.5f),
-        glm::vec3(0.0f),
-        glm::vec3(0.05f, 1.2f, 2.0f),
+        glm::vec3(wallThickness, wallHeight, depth),
         0.0f));
 }
 
@@ -77,9 +59,12 @@ void Casa::draw(Shader &shader, glm::mat4 model)
     model = glm::translate(model, position);
     model = glm::scale(model, scale);
 
-    // Piso
-    glBindTexture(GL_TEXTURE_2D, texturaChao);
+    // chão
+    glBindTexture(GL_TEXTURE_2D, stoneTex);
     parts[0]->draw(shader, model);
 
-    // Paredes
-    glBindTexture(GL_TEXTURE_2D, texturaPar
+    // paredes
+    glBindTexture(GL_TEXTURE_2D, woodTex);
+    for (int i = 1; i < parts.size(); i++)
+        parts[i]->draw(shader, model);
+}

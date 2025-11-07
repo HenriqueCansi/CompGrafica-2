@@ -22,8 +22,8 @@
 				<Linker>
 					<Add library="C:/glfw-3.4.bin.WIN64/lib-mingw-w64/libglfw3.a" />
 					<Add library="C:/glfw-3.4.bin.WIN64/lib-mingw-w64/libglfw3dll.a" />
-					<Add library="C:\Mingw64\x86_64-w64-mingw32\lib/libgdi32.a" />
-					<Add library="C:\Mingw64\x86_64-w64-mingw32\lib/libopengl32.a" />
+					<Add library="C:/Mingw64/x86_64-w64-mingw32/lib/libgdi32.a" />
+					<Add library="C:/Mingw64/x86_64-w64-mingw32/lib/libopengl32.a" />
 					<Add library="C:/glew-2.1.0/lib/Release/x64/glew32.lib" />
 					<Add library="C:/glew-2.1.0/lib/Release/x64/glew32s.lib" />
 				</Linker>
@@ -48,34 +48,51 @@
 		</Compiler>
 		<Unit filename="include/Application.h" />
 		<Unit filename="include/Banrisul.h" />
+		<Unit filename="include/Bed.h" />
 		<Unit filename="include/Cabinet.h" />
+		<Unit filename="include/Casa.h" />
 		<Unit filename="include/Chair.h" />
 		<Unit filename="include/Cube.h" />
 		<Unit filename="include/Cylinder.h" />
 		<Unit filename="include/Fridge.h" />
+		<Unit filename="include/Geladeira.h" />
 		<Unit filename="include/Mesh.h" />
 		<Unit filename="include/Object.h" />
+		<Unit filename="include/Rack.h" />
 		<Unit filename="include/Shader.h" />
+		<Unit filename="include/Sink.h" />
+		<Unit filename="include/Sofa.h" />
 		<Unit filename="include/Sphere.h" />
+		<Unit filename="include/Stove.h" />
 		<Unit filename="include/Table.h" />
 		<Unit filename="include/Texture.h" />
+		<Unit filename="include/Toilet.h" />
 		<Unit filename="include/TriPrism.h" />
+		<Unit filename="include/Tv.h" />
 		<Unit filename="include/stb_image.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Application.cpp" />
 		<Unit filename="src/Banrisul.cpp" />
+		<Unit filename="src/Bed.cpp" />
 		<Unit filename="src/Cabinet.cpp" />
+		<Unit filename="src/Casa.cpp" />
 		<Unit filename="src/Chair.cpp" />
 		<Unit filename="src/Cube.cpp" />
 		<Unit filename="src/Cylinder.cpp" />
 		<Unit filename="src/Fridge.cpp" />
+		<Unit filename="src/Geladeira.cpp" />
 		<Unit filename="src/Mesh.cpp" />
 		<Unit filename="src/Object.cpp" />
+		<Unit filename="src/Rack.cpp" />
+		<Unit filename="src/Sink.cpp" />
+		<Unit filename="src/Sofa.cpp" />
 		<Unit filename="src/Sphere.cpp" />
+		<Unit filename="src/Stove.cpp" />
 		<Unit filename="src/Table.cpp" />
 		<Unit filename="src/Texture.cpp" />
+		<Unit filename="src/Toilet.cpp" />
 		<Unit filename="src/TriPrism.cpp" />
-		<Unit filename="src/stb_image.cpp" />
+		<Unit filename="src/Tv.cpp" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
