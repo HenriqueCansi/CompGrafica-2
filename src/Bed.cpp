@@ -1,7 +1,7 @@
 #include "Bed.h"
 #include <GL/glew.h>
 
-extern unsigned int woodTex;
+extern unsigned int texturaMadeiraEscura;
 extern unsigned int texturaVerdePeludo;
 extern unsigned int texturaTecidoBranco;
 
@@ -69,7 +69,7 @@ void Bed::draw(Shader &shader, glm::mat4 model)
     model = glm::scale(model, scale);
 
     // Madeira — base e estrutura inferior
-    glBindTexture(GL_TEXTURE_2D, woodTex);
+    glBindTexture(GL_TEXTURE_2D, texturaMadeiraEscura);
     parts[0]->draw(shader, model);  // estrutura
     parts[6]->draw(shader, model);  // base inferior
     parts[1]->draw(shader, model);  // cabeceira

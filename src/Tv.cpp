@@ -1,7 +1,7 @@
 #include "Tv.h"
 #include <GL/glew.h>
 
-extern unsigned int steelTex;  // moldura e suporte
+extern unsigned int texturaInox;  // moldura e suporte
 extern unsigned int blackTex;  // tela
 
 Tv::Tv(glm::vec3 pos)
@@ -54,7 +54,7 @@ void Tv::draw(Shader &shader, glm::mat4 model)
     model = glm::scale(model, scale);
 
     // Moldura metálica e suporte
-    glBindTexture(GL_TEXTURE_2D, steelTex);
+    glBindTexture(GL_TEXTURE_2D, texturaInox);
     parts[0]->draw(shader, model);  // moldura
     parts[2]->draw(shader, model);  // haste
     parts[3]->draw(shader, model);  // base principal

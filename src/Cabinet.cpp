@@ -1,9 +1,9 @@
 #include "Cabinet.h"
 #include <GL/glew.h>
 
-extern unsigned int woodTex;
-extern unsigned int lightWoodTex;
-extern unsigned int steelTex;
+extern unsigned int texturaMadeiraEscura;
+extern unsigned int texturaMadeiraClara;
+extern unsigned int texturaInox;
 
 Cabinet::Cabinet(glm::vec3 pos, glm::vec3 rot, glm::vec3 scl, float ang)
     : Object(pos, rot, scl, ang)
@@ -42,16 +42,16 @@ void Cabinet::draw(Shader &shader, glm::mat4 model) {
     model = glm::scale(model, scale);
 
     // Body (wood)
-    glBindTexture(GL_TEXTURE_2D, woodTex);
+    glBindTexture(GL_TEXTURE_2D, texturaMadeiraEscura);
     parts[0]->draw(shader, model);
 
     // Doors (light wood)
-    glBindTexture(GL_TEXTURE_2D, lightWoodTex);
+    glBindTexture(GL_TEXTURE_2D, texturaMadeiraClara);
     parts[1]->draw(shader, model);
     parts[2]->draw(shader, model);
 
     // Handles (steel)
-    glBindTexture(GL_TEXTURE_2D, steelTex);
+    glBindTexture(GL_TEXTURE_2D, texturaInox);
     parts[3]->draw(shader, model);
     parts[4]->draw(shader, model);
 }

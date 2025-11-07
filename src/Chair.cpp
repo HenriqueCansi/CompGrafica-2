@@ -1,8 +1,8 @@
 #include "Chair.h"
 #include <GL/glew.h>
 
-extern unsigned int woodTex;
-extern unsigned int lightWoodTex;
+extern unsigned int texturaMadeiraEscura;
+extern unsigned int texturaMadeiraClara;
 
 Chair::Chair(glm::vec3 pos, glm::vec3 scl)
     : Object(pos, glm::vec3(0.0f), scl, 0.0f)
@@ -40,15 +40,15 @@ void Chair::draw(Shader &shader, glm::mat4 model) {
     model = glm::scale(model, scale);
 
     // assento
-    glBindTexture(GL_TEXTURE_2D, lightWoodTex);
+    glBindTexture(GL_TEXTURE_2D, texturaMadeiraClara);
     parts[0]->draw(shader, model);
 
     // encosto
-    glBindTexture(GL_TEXTURE_2D, woodTex);
+    glBindTexture(GL_TEXTURE_2D, texturaMadeiraEscura);
     parts[1]->draw(shader, model);
 
     // pernas
-    glBindTexture(GL_TEXTURE_2D, woodTex);
+    glBindTexture(GL_TEXTURE_2D, texturaMadeiraEscura);
     for (int i = 2; i < 6; i++)
         parts[i]->draw(shader, model);
 }

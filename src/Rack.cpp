@@ -3,7 +3,7 @@
 #include <memory>  // precisa para std::make_unique
 #include "Cube.h"  // mesmo que as outras classes usam (para reconhecer Cube)
 
-extern unsigned int woodTex;
+extern unsigned int texturaMadeiraEscura;
 extern unsigned int blackTex;
 
 Rack::Rack(glm::vec3 pos)
@@ -62,7 +62,7 @@ void Rack::draw(Shader &shader, glm::mat4 model)
     model = glm::scale(model, scale);
 
     // Madeira
-    glBindTexture(GL_TEXTURE_2D, woodTex);
+    glBindTexture(GL_TEXTURE_2D, texturaMadeiraEscura);
     parts[0]->draw(shader, model);
     parts[1]->draw(shader, model);
     parts[2]->draw(shader, model);

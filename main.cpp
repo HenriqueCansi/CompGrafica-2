@@ -23,11 +23,12 @@
 #include <Rack.h>
 #include <Casa.h>
 
-// 🔹 Texturas globais
-unsigned int stoneTex;
-unsigned int woodTex;
-unsigned int lightWoodTex;
-unsigned int steelTex;
+//  Texturas globais
+unsigned int texturaPiso;
+unsigned int texturaPisoBanheiro;
+unsigned int texturaMadeiraEscura;
+unsigned int texturaMadeiraClara;
+unsigned int texturaInox;
 unsigned int blackTex;
 unsigned int tecidoSofa;
 unsigned int texturaVerdePeludo;
@@ -35,7 +36,6 @@ unsigned int texturaTecidoBranco;
 unsigned int texturaCeramicaBranca;
 unsigned int texturaAgua;
 
-// 🔹 Função para carregar textura
 unsigned int loadTexture(const char *path)
 {
     unsigned int texture;
@@ -60,28 +60,26 @@ unsigned int loadTexture(const char *path)
         std::cout << "Failed to load texture: " << path << std::endl;
     }
     stbi_image_free(data);
-
     return texture;
 }
 
 // Variáveis de câmera
-glm::vec3 cameraPos = glm::vec3(25.0f, 1.0f, 3.0f);
-glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraPos = glm::vec3(3.0f, 1.2f, 8.0f); // fora da casa
+glm::vec3 cameraFront = glm::vec3(-0.3f, 0.0f, -1.0f); // olhando um pouco para a esquerda
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 float yaw = -90.0f;
 float pitch = 0.0f;
 float lastX = 800.0f / 2.0f;
-float lastY = 450.0f / 2.0f;
+float lastY = 600.0f / 2.0f;
 bool firstMouse = true;
 
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-// Controle da visão com o mouse
-void viraCamera(double xpos, double ypos)
+void mouse_callback(GLFWwindow *window, double xpos, double ypos)
 {
-    const float sensitivity = 0.1f;
+    static float sensitivity = 0.1f;
 
     if (firstMouse)
     {
@@ -113,19 +111,12 @@ void viraCamera(double xpos, double ypos)
     cameraFront = glm::normalize(direction);
 }
 
-// Callback do mouse
-void mouse_callback(GLFWwindow *window, double xpos, double ypos)
-{
-    viraCamera(xpos, ypos);
-}
-
-// Controle de movimento
 void processInput(GLFWwindow *window)
 {
+    const float cameraSpeed = 3.5f * deltaTime;
+
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
-
-    float cameraSpeed = 5.0f * deltaTime; // mais rápido e fluido
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         cameraPos += cameraSpeed * cameraFront;
@@ -135,22 +126,15 @@ void processInput(GLFWwindow *window)
         cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-        cameraPos.y += cameraSpeed;
-    if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
-        cameraPos.y -= cameraSpeed;
 }
 
-// Função principal
 int main()
 {
-    Application app(640, 360, "Scene with All Objects");
+    Application app(1280, 720, "Casa 3D - Base");
     if (!app.init())
         return -1;
 
     GLFWwindow *window = app.getWindow();
-
-    // Configura captura do mouse
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -159,11 +143,12 @@ int main()
     glEnable(GL_DEPTH_TEST);
 
     // Carrega texturas
-    stoneTex = loadTexture("stone.png");
-    woodTex = loadTexture("wood.png");
-    lightWoodTex = loadTexture("lightwood.png");
-    steelTex = loadTexture("steel.png");
-    blackTex = loadTexture("black.png");
+    texturaPiso = loadTexture("assets/textures/chaoCasa.jpg");
+    texturaPisoBanheiro = loadTexture("assets/textures/chaoBanheiro.jpg");
+    texturaMadeiraEscura = loadTexture("assets/textures/madeiraEscura.jpg");
+    texturaMadeiraClara = loadTexture("assets/textures/madeiraClara.jpg");
+    texturaInox = loadTexture("assets/textures/inox.jpg");
+    blackTex = loadTexture("assets/textures/preto.jpg");
     tecidoSofa = loadTexture("assets/textures/tecido_sofa.jpg");
     texturaVerdePeludo = loadTexture("assets/textures/verde-peludo.jpg");
     texturaTecidoBranco = loadTexture("assets/textures/tecidoBranco.jpg");
@@ -172,25 +157,25 @@ int main()
 
     shader.setInt("texture1", 0);
 
-    // Cria objetos
-
-    Cube cube(glm::vec3(-7.5f, 0.5f, 0.0f));
-    TriangularPrism prism(glm::vec3(-5.0f, 0.5f, 0.0f));
-    Cylinder cylinder(glm::vec3(-2.5f, 0.5f, 0.0f));
-    Sphere sphere(glm::vec3(0.0f, 0.5f, 0.0f));
-    Chair chair(glm::vec3(2.5f, 0.0f, 0.0f));
-    Cabinet cabinet(glm::vec3(5.0f, 0.0f, 0.0f));
-    Table table(glm::vec3(7.5f, 0.0f, 0.0f));
-    Geladeira geladeira(glm::vec3(10.0f, 0.0f, 0.0f));
-    Stove stove(glm::vec3(12.5f, 0.0f, 0.0f));
-    Sofa sofa(glm::vec3(15.0f, 0.0f, 0.0f));
-    Rack rack(glm::vec3(17.5f, 0.0f, 0.0f));
-    Tv tv(glm::vec3(17.5f, 0.4f, 0.0f));
-    Bed bed(glm::vec3(20.0f, 0.0f, 0.0f));
-    Toilet toilet(glm::vec3(22.5f, 0.0f, 0.0f));
-    Sink sink(glm::vec3(25.0f, 0.0f, 0.0f));
+    // Criar a casa (base maior)
+    // Casa no centro
     Casa casa(glm::vec3(0.0f, 0.0f, 0.0f));
+    casa.scale = glm::vec3(0.5f);
 
+    // Banheiro
+    Toilet vaso(glm::vec3(-3.25f, 0.0f, -3.0f));   // canto bem colado
+    Sink pia(glm::vec3(-2.0f, 0.0f, -3.0f));
+
+   Cube pisoBanheiro(glm::vec3(-2.5f, 0.04f, -2.5f),
+                  glm::vec3(0.0f),
+                  glm::vec3(2.5, 0.02f, 2.5f),
+                  0.0f);
+
+
+   /*Cube paredeBanheiro(glm::vec3(-1.2f, 0.0f, -3.0f),   // posição centralizada com o banheiro
+   glm::vec3(0.0f),
+   glm::vec3(0.1f, 3.0f, 2.5f),     // largura fina, altura 3, comprimento do banheiro
+   0.0f); */
     // Loop principal
     while (!glfwWindowShouldClose(window))
     {
@@ -206,32 +191,30 @@ int main()
         shader.use();
         glActiveTexture(GL_TEXTURE0);
 
-        glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1600.0f / 900.0f, 0.1f, 100.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(45.0f),
+                                                1280.0f / 720.0f, 0.1f, 100.0f);
         glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         shader.setMat4("projection", projection);
         shader.setMat4("view", view);
 
         glm::mat4 model = glm::mat4(1.0f);
+        glBindTexture(GL_TEXTURE_2D, texturaMadeiraEscura);
 
-        // Desenha tudo
-        glBindTexture(GL_TEXTURE_2D, stoneTex);
-        cube.draw(shader, model);
-        prism.draw(shader, model);
-        cylinder.draw(shader, model);
-        sphere.draw(shader, model);
-
-        chair.draw(shader, model);
-        cabinet.draw(shader, model);
-        table.draw(shader, model);
-        geladeira.draw(shader, model);
-        stove.draw(shader, model);
-        sofa.draw(shader, model);
-        rack.draw(shader, model);
-        tv.draw(shader, model);
-        bed.draw(shader, model);
-        toilet.draw(shader, model);
-        sink.draw(shader, model);
         casa.draw(shader, model);
+
+        //Banheiro
+        glBindTexture(GL_TEXTURE_2D, texturaCeramicaBranca);
+        vaso.draw(shader, model);
+        pia.draw(shader, model);
+
+        /* Parede do banheiro
+        glBindTexture(GL_TEXTURE_2D, texturaMadeiraEscura); // ou stoneTex, se quiser um visual mais sólido
+        paredeBanheiro.draw(shader, model); */
+
+        // Piso do banheiro
+        glBindTexture(GL_TEXTURE_2D, texturaPisoBanheiro);
+        pisoBanheiro.draw(shader, model);
+        //Banheiro
 
         glfwSwapBuffers(window);
         glfwPollEvents();

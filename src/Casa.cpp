@@ -1,8 +1,8 @@
 #include "Casa.h"
 #include <GL/glew.h>
 
-extern unsigned int stoneTex;
-extern unsigned int woodTex;
+extern unsigned int texturaPiso;
+extern unsigned int texturaMadeiraEscura;
 
 Casa::Casa(glm::vec3 pos)
     : Object(pos, glm::vec3(0.0f), glm::vec3(1.0f), 0.0f)
@@ -14,7 +14,7 @@ void Casa::init()
 {
     float wallHeight = 3.0f;
     float wallThickness = 0.1f;
-    float width = 20.0f;   // largura total da casa (eixo X)
+    float width = 15.0f;   // largura total da casa (eixo X)
     float depth = 15.0f;   // profundidade total da casa (eixo Z)
 
     //  CHÃO
@@ -60,11 +60,11 @@ void Casa::draw(Shader &shader, glm::mat4 model)
     model = glm::scale(model, scale);
 
     // chão
-    glBindTexture(GL_TEXTURE_2D, stoneTex);
+    glBindTexture(GL_TEXTURE_2D, texturaPiso);
     parts[0]->draw(shader, model);
 
     // paredes
-    glBindTexture(GL_TEXTURE_2D, woodTex);
+    glBindTexture(GL_TEXTURE_2D, texturaMadeiraEscura);
     for (int i = 1; i < parts.size(); i++)
         parts[i]->draw(shader, model);
 }

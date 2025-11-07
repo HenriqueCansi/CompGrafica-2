@@ -1,9 +1,9 @@
 #include "Stove.h"
 #include <GL/glew.h>
 
-extern unsigned int steelTex;
+extern unsigned int texturaInox;
 extern unsigned int blackTex;
-extern unsigned int lightWoodTex;
+extern unsigned int texturaMadeiraClara;
 
 Stove::Stove(glm::vec3 pos)
     : Object(pos, glm::vec3(0.0f), glm::vec3(1.0f), 0.0f)
@@ -91,7 +91,7 @@ void Stove::draw(Shader &shader, glm::mat4 model)
     model = glm::scale(model, scale);
 
     // Steel
-    glBindTexture(GL_TEXTURE_2D, steelTex);
+    glBindTexture(GL_TEXTURE_2D, texturaInox);
     parts[0]->draw(shader, model);
     parts[1]->draw(shader, model);
 
@@ -106,7 +106,7 @@ void Stove::draw(Shader &shader, glm::mat4 model)
     parts[8]->draw(shader, model);
 
     // Steel
-    glBindTexture(GL_TEXTURE_2D, steelTex);
+    glBindTexture(GL_TEXTURE_2D, texturaInox);
     parts[9]->draw(shader, model);
     parts[10]->draw(shader, model);
     parts[11]->draw(shader, model);

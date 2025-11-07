@@ -5,8 +5,8 @@
 #include "Cylinder.h"
 #include "Sphere.h"
 
-extern unsigned int woodTex;
-extern unsigned int stoneTex;
+extern unsigned int texturaMadeiraEscura;
+extern unsigned int texturaPiso;
 extern unsigned int texturaCeramicaBranca;
 
 Table::Table(glm::vec3 pos)
@@ -107,7 +107,7 @@ void Table::draw(Shader &shader, glm::mat4 model)
     model = glm::scale(model, scale);
 
     // madeira — tampo e pernas
-    glBindTexture(GL_TEXTURE_2D, woodTex);
+    glBindTexture(GL_TEXTURE_2D, texturaMadeiraEscura);
     for (int i = 0; i <= 5; ++i)
         parts[i]->draw(shader, model);
 
