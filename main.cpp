@@ -36,6 +36,8 @@ unsigned int texturaTecidoBranco;
 unsigned int texturaCeramicaBranca;
 unsigned int texturaAgua;
 unsigned int texturaPoteAmarelo;
+unsigned int texturaTapete;
+
 
 unsigned int loadTexture(const char *path)
 {
@@ -65,18 +67,28 @@ unsigned int loadTexture(const char *path)
 }
 
 // Variáveis de câmera
-glm::vec3 cameraPos = glm::vec3(3.0f, 1.2f, 8.0f); // fora da casa
-glm::vec3 cameraFront = glm::vec3(-0.3f, 0.0f, -1.0f); // olhando um pouco para a esquerda
+glm::vec3 cameraPos = glm::vec3(2.5f, 5.0f, 8.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, -0.2f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 float yaw = -90.0f;
-float pitch = 0.0f;
+float pitch = -10.0f;
 float lastX = 800.0f / 2.0f;
 float lastY = 600.0f / 2.0f;
 bool firstMouse = true;
 
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
+
+void resetCamera()
+{
+    cameraPos = glm::vec3(2.5f, 5.0f, 8.0f);
+    cameraFront = glm::vec3(0.0f, -0.2f, -1.0f);
+    cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+    yaw = -90.0f;
+    pitch = -10.0f;
+}
 
 void mouse_callback(GLFWwindow *window, double xpos, double ypos)
 {
@@ -127,6 +139,8 @@ void processInput(GLFWwindow *window)
         cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+        resetCamera();
 }
 
 int main()
@@ -156,6 +170,7 @@ int main()
     texturaCeramicaBranca = loadTexture("assets/textures/ceramica.jpg");
     texturaAgua = loadTexture("assets/textures/agua.jpg");
     texturaPoteAmarelo = loadTexture("assets/textures/Amarelo.jpg");
+    texturaTapete = loadTexture("assets/textures/tapete.jpg");
 
     shader.setInt("texture1", 0);
 
@@ -183,16 +198,33 @@ int main()
 
     //Quarto cama + rack
 
-    Bed cama(glm::vec3(2.8f, 0.0f, -2.25f));      // cama no canto direito traseiro
-    Rack rack(glm::vec3(2.8f, 0.0f, 1.0f));     // rack à frente da cama
-    Tv tv(glm::vec3(2.8f, 0.4f, 1.0f));        // tv em cima do rack
+    Bed cama(glm::vec3(2.8f, 0.0f, -2.25f));
+    Rack rack(glm::vec3(2.8f, 0.0f, 1.0f));
+    Tv tv(glm::vec3(2.8f, 0.4f, 1.0f));
 
     // Rotacionar rack e TV para olhar para a cama
     rack.rotation = glm::vec3(0.0f, 180.0f, 0.0f);
     tv.rotation   = glm::vec3(0.0f, 180.0f, 0.0f);
 
+    // Parede atrás do rack (divisória para área da cozinha)
+    Cube paredeRack(
+    glm::vec3(3.9f, 1.0f, 1.0f),  // posição (ajuste fino conforme layout)
+    glm::vec3(0.0f),
+    glm::vec3(0.1f, 2.0f, 4.0f),  // espessura, altura e comprimento
+    0.0f);
+    paredeRack.rotation = glm::vec3(0.0f, -90.0f, 0.0f);
     //Quarto cama + rack
 
+    //Sofa + tapete
+    Sofa sofa(glm::vec3(0.35f, 0.0f, -3.0f));
+
+    Cube tapeteSofa(
+    glm::vec3(0.35f, 0.04f, -1.5f),
+    glm::vec3(0.0f),
+    glm::vec3(2.0f, 0.02f, 1.0f),
+    0.0f);
+
+    //Sofa + tapete + geladeira
 
     // Mesa centralizada em frente ao banheiro
     Table mesa(glm::vec3(-1.5f, 0.0f, 1.5f));
@@ -208,6 +240,10 @@ int main()
     cadeira2.rotation = glm::vec3(0.0f, -90.0f, 0.0f);
     cadeira3.rotation = glm::vec3(0.0f, 0.0f, 0.0f);
     cadeira4.rotation = glm::vec3(0.0f, 180.0f, 0.0f);
+
+    Geladeira geladeira(glm::vec3(3.2f, 0.0f, 2.75f));
+    geladeira.scale = glm::vec3(0.9f);
+    geladeira.rotation = glm::vec3(0.0f, -90.0f, 0.0f);
 
 
     while (!glfwWindowShouldClose(window))
@@ -269,19 +305,22 @@ int main()
         glBindTexture(GL_TEXTURE_2D, texturaTecidoBranco);
         cama.draw(shader, model);
 
+        //glBindTexture(GL_TEXTURE_2D, texturaMadeiraEscura);
+        // paredeRack.draw(shader, model);
+
         // ==============================
         //Quarto cama + rack
         // ==============================
 
         // ==============================
-        //  Sala de jantar (mesa + cadeiras)
+        //  Sala de jantar (mesa + cadeiras + Geladeira)
         // ==============================
 
         mesa.draw(shader, model);
         mesa.scale = glm::vec3(1.0f);
 
         cadeira1.draw(shader, model);
-        cadeira1.scale = glm::vec3(0.85f);
+        cadeira1.scale = glm::vec3(0.7f);
 
         //cadeira2.draw(shader, model);
         //cadeira2.scale = glm::vec3(0.85f);
@@ -291,10 +330,26 @@ int main()
 
         //cadeira4.draw(shader, model);
 
+        glBindTexture(GL_TEXTURE_2D, texturaInox);
+        geladeira.draw(shader, model);
+
         // ==============================
         //  Sala de jantar (mesa + cadeiras)
         // ==============================
 
+        // ==============================
+        //  Sofa
+        // ==============================
+        glBindTexture(GL_TEXTURE_2D, texturaVerdePeludo);
+        sofa.draw(shader, model);
+        mesa.scale = glm::vec3(0.85f);
+
+        glBindTexture(GL_TEXTURE_2D, texturaTapete);
+        tapeteSofa.draw(shader, model);
+
+        // ==============================
+        //  Sofa
+        // ==============================
         glfwSwapBuffers(window);
         glfwPollEvents();
     }

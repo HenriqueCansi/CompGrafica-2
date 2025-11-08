@@ -1,8 +1,13 @@
 #include "Sink.h"
 #include <GL/glew.h>
+#include <memory>
+#include "Cube.h"
+#include "Cylinder.h"
 
+extern unsigned int texturaInox;
 extern unsigned int texturaCeramicaBranca;
-extern unsigned int blackTex;
+extern unsigned int texturaPiso;
+extern unsigned int texturaMadeiraClara;
 extern unsigned int texturaAgua;
 
 Sink::Sink(glm::vec3 pos)
@@ -13,64 +18,62 @@ Sink::Sink(glm::vec3 pos)
 
 void Sink::init()
 {
-    // base
+    // --- Base da pia (móvel de apoio) ---
     parts.push_back(std::make_unique<Cube>(
-        glm::vec3(0.0f, 0.3f, 0.0f),
+        glm::vec3(0.0f, 0.45f, 0.0f),
         glm::vec3(0.0f),
-        glm::vec3(0.23f, 0.6f, 0.275f),
+        glm::vec3(1.0f, 0.9f, 0.5f),
         0.0f));
 
-    // tank
+    // --- Tampo da pia ---
     parts.push_back(std::make_unique<Cube>(
-        glm::vec3(0.0f, 0.725f, 0.078f),
+        glm::vec3(0.0f, 0.95f, 0.0f),
         glm::vec3(0.0f),
-        glm::vec3(0.55f, 0.25f, 0.55f),
+        glm::vec3(1.05f, 0.05f, 0.55f),
         0.0f));
 
-    // valve
+    // --- Cuba (parte interna branca) ---
+    parts.push_back(std::make_unique<Cube>(
+        glm::vec3(0.0f, 0.97f, 0.0f),
+        glm::vec3(0.0f),
+        glm::vec3(0.5f, 0.08f, 0.35f),
+        0.0f));
+
+    // --- Torneira (corpo metálico) ---
     parts.push_back(std::make_unique<Cylinder>(
-        glm::vec3(0.0f, 0.85f, -0.143f),
+        glm::vec3(0.15f, 0.97f, 0.15f),
         glm::vec3(0.0f),
-        glm::vec3(0.05f, 0.13f, 0.05f),
-        0.0f,
-        16));
-    parts.push_back(std::make_unique<Cylinder>(
-        glm::vec3(0.0f, 0.98f, -0.143f),
-        glm::vec3(0.0f),
-        glm::vec3(0.09f, 0.03f, 0.09f),
-        0.0f,
-        16));
-    parts.push_back(std::make_unique<Cube>(
-        glm::vec3(0.0f, 0.944f, -0.07f),
-        glm::vec3(0.0f),
-        glm::vec3(0.03f, 0.03f, 0.145f),
-        0.0f));
+        glm::vec3(0.03f, 0.25f, 0.03f),
+        0.0f, 16));
 
-    // water
-    parts.push_back(std::make_unique<Cube>(
-        glm::vec3(0.0f, 0.834f, 0.103f),
-        glm::vec3(0.0f),
-        glm::vec3(0.4f, 0.07f, 0.4f),
-        0.0f));
+    // --- Curva superior da torneira ---
+    parts.push_back(std::make_unique<Cylinder>(
+        glm::vec3(0.15f, 1.25f, 0.05f),
+        glm::vec3(90.0f, 0.0f, 0.0f),
+        glm::vec3(0.03f, 0.12f, 0.03f),
+        0.0f, 16));
 }
 
 void Sink::draw(Shader &shader, glm::mat4 model)
 {
     model = glm::translate(model, position);
+    model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
     model = glm::scale(model, scale);
 
-    // White ceramic
-    glBindTexture(GL_TEXTURE_2D, texturaCeramicaBranca);
+    // --- Base de madeira ---
+    glBindTexture(GL_TEXTURE_2D, texturaMadeiraClara);
     parts[0]->draw(shader, model);
+
+    // --- Tampo de cerâmica ---
+    glBindTexture(GL_TEXTURE_2D, texturaCeramicaBranca);
     parts[1]->draw(shader, model);
 
-    // Black
-    glBindTexture(GL_TEXTURE_2D, blackTex);
-    parts[2]->draw(shader, model);
-    parts[3]->draw(shader, model);
-    parts[4]->draw(shader, model);
-
-    // Water ripple
+    // --- Cuba ---
     glBindTexture(GL_TEXTURE_2D, texturaAgua);
-    parts[5]->draw(shader, model);
+    parts[2]->draw(shader, model);
+
+    // --- Torneira metálica ---
+    glBindTexture(GL_TEXTURE_2D, texturaInox);
+    parts[3]->draw(shader, model);
+    //parts[4]->draw(shader, model);
 }

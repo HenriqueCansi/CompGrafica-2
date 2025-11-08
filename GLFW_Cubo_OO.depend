@@ -2507,7 +2507,7 @@
 	"Cube.h"
 	"Cylinder.h"
 
-1762544182 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\main.cpp
+1762610797 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\main.cpp
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
@@ -2750,7 +2750,7 @@
 	"Bed.h"
 	<GL/glew.h>
 
-1762535654 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\geladeira.cpp
+1762609621 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\geladeira.cpp
 	"Geladeira.h"
 	<GL/glew.h>
 	<memory>
@@ -2763,9 +2763,12 @@
 	<memory>
 	"Cube.h"
 
-1762470397 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\sink.cpp
+1762609975 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\sink.cpp
 	"Sink.h"
 	<GL/glew.h>
+	<memory>
+	"Cube.h"
+	"Cylinder.h"
 
 1762459804 source:c:\estudo\2025b\grafica\tde2\compgrafica-2\src\sofa.cpp
 	"Sofa.h"
