@@ -1,4 +1,4 @@
-#include "Sink.h"
+#include "Pia.h"
 #include <GL/glew.h>
 #include <memory>
 #include "Cube.h"
@@ -10,13 +10,13 @@ extern unsigned int texturaPiso;
 extern unsigned int texturaMadeiraClara;
 extern unsigned int texturaAgua;
 
-Sink::Sink(glm::vec3 pos)
+Pia::Pia(glm::vec3 pos)
     : Object(pos, glm::vec3(0.0f), glm::vec3(1.0f), 0.0f)
 {
     init();
 }
 
-void Sink::init()
+void Pia::init()
 {
     // --- Base da pia (móvel de apoio) ---
     parts.push_back(std::make_unique<Cube>(
@@ -54,7 +54,7 @@ void Sink::init()
         0.0f, 16));
 }
 
-void Sink::draw(Shader &shader, glm::mat4 model)
+void Pia::draw(Shader &shader, glm::mat4 model)
 {
     model = glm::translate(model, position);
     model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));

@@ -1,4 +1,4 @@
-#include "Table.h"
+#include "Mesa.h"
 #include <GL/glew.h>
 #include <memory>
 #include "Cube.h"
@@ -10,13 +10,13 @@ extern unsigned int texturaPiso;
 extern unsigned int texturaCeramicaBranca;
 extern unsigned int texturaPoteAmarelo;
 
-Table::Table(glm::vec3 pos)
+Mesa::Mesa(glm::vec3 pos)
     : Object(pos, glm::vec3(0.0f), glm::vec3(1.0f), 0.0f)
 {
     init();
 }
 
-void Table::init()
+void Mesa::init()
 {
     float topHeight = 0.85f;
     float topThickness = 0.1f;
@@ -104,7 +104,7 @@ void Table::init()
         0.0f));
 }
 
-void Table::draw(Shader &shader, glm::mat4 model)
+void Mesa::draw(Shader &shader, glm::mat4 model)
 {
     model = glm::translate(model, position);
     model = glm::scale(model, scale);

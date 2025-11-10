@@ -5,10 +5,10 @@
 #include <vector>
 #include <memory>
 
-class Sink : public Object
-{
+class Mesa : public Object {
 public:
-    Sink(glm::vec3 pos = glm::vec3(0.0f));
+    Mesa(glm::vec3 pos = glm::vec3(0.0f));
+
     void draw(Shader &shader, glm::mat4 model) override;
 
 private:

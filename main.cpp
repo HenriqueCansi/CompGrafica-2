@@ -11,15 +11,15 @@
 #include <Cylinder.h>
 #include <Sphere.h>
 #include <Chair.h>
-#include <Cabinet.h>
-#include <Table.h>
+#include <Armario.h>
+#include <Mesa.h>
 #include <Geladeira.h>
 #include <Stove.h>
 #include <Sofa.h>
 #include <Tv.h>
 #include <Bed.h>
-#include <Toilet.h>
-#include <Sink.h>
+#include <Vaso.h>
+#include <Pia.h>
 #include <Rack.h>
 #include <Casa.h>
 
@@ -174,14 +174,17 @@ int main()
 
     shader.setInt("texture1", 0);
 
-    // Criar a casa (base maior)
-    // Casa no centro
+    // ==============================
+    //  CASA
+    // ==============================
     Casa casa(glm::vec3(0.0f, 0.0f, 0.0f));
     casa.scale = glm::vec3(0.5f);
 
-    // Banheiro
-    Toilet vaso(glm::vec3(-3.25f, 0.0f, -3.0f));   // canto bem colado
-    Sink pia(glm::vec3(-2.0f, 0.0f, -3.0f));
+    // ==============================
+    //  Banheiro
+    // ==============================
+    Vaso vaso(glm::vec3(-3.25f, 0.0f, -3.0f));
+    Pia pia(glm::vec3(-2.0f, 0.0f, -3.0f));
 
     Cube pisoBanheiro(glm::vec3(-2.5f, 0.04f, -2.5f),
                       glm::vec3(0.0f),
@@ -189,14 +192,14 @@ int main()
                       0.0f);
 
 
-    Cube paredeBanheiro(glm::vec3(-1.2f, 0.75f, -2.5f),   // posição centralizada com o banheiro
+    Cube paredeBanheiro(glm::vec3(-1.2f, 0.75f, -2.5f),
     glm::vec3(0.0f),
-    glm::vec3(0.1f, 1.5f, 2.5f),     // largura fina, altura 3, comprimento do banheiro
+    glm::vec3(0.1f, 1.5f, 2.5f),
     0.0f);
 
-    //Banheiro
-
-    //Quarto cama + rack
+    // ==============================
+    //  Quarto
+    // ==============================
 
     Bed cama(glm::vec3(2.8f, 0.0f, -2.25f));
     Rack rack(glm::vec3(2.8f, 0.0f, 1.0f));
@@ -206,13 +209,13 @@ int main()
     rack.rotation = glm::vec3(0.0f, 180.0f, 0.0f);
     tv.rotation   = glm::vec3(0.0f, 180.0f, 0.0f);
 
-    // Parede atrás do rack (divisória para área da cozinha)
-    Cube paredeRack(
-    glm::vec3(3.9f, 1.0f, 1.0f),  // posição (ajuste fino conforme layout)
-    glm::vec3(0.0f),
-    glm::vec3(0.1f, 2.0f, 4.0f),  // espessura, altura e comprimento
-    0.0f);
-    paredeRack.rotation = glm::vec3(0.0f, -90.0f, 0.0f);
+   Cube paredeRack(
+    glm::vec3(2.5f, 0.75f, 1.5f),    // posição: x à direita do rack, z um pouco mais para dentro
+    glm::vec3(0.0f, 0.0f, 0.0f),    // sem rotação
+    glm::vec3(1.0f, 1.5f, 0.1f),    // comprimento no X = 4.0, altura = 2.0, espessura no Z = 0.1
+    0.0f
+    );
+
     //Quarto cama + rack
 
     //Sofa + tapete
@@ -227,7 +230,7 @@ int main()
     //Sofa + tapete + geladeira
 
     // Mesa centralizada em frente ao banheiro
-    Table mesa(glm::vec3(-1.5f, 0.0f, 1.5f));
+    Mesa mesa(glm::vec3(-1.5f, 0.0f, 1.5f));
 
     // Cadeiras ao redor
     Chair cadeira1(glm::vec3(-1.5f, 0.0f, 1.2f));  // esquerda
@@ -245,6 +248,13 @@ int main()
     geladeira.scale = glm::vec3(0.9f);
     geladeira.rotation = glm::vec3(0.0f, -90.0f, 0.0f);
 
+    Stove stove(glm::vec3(-0.25f, 0.0f, 3.4f));
+    stove.rotation = glm::vec3(0.0f, 180.0f, 0.0f);
+
+    // Armário de cozinha
+    Armario armario(glm::vec3(-3.4f, 0.03f, 3.2f));
+    armario.scale = glm::vec3(0.9f);
+    armario.rotation = glm::vec3(0.0f, 90.0f, 0.0f);
 
     while (!glfwWindowShouldClose(window))
     {
@@ -305,9 +315,8 @@ int main()
         glBindTexture(GL_TEXTURE_2D, texturaTecidoBranco);
         cama.draw(shader, model);
 
-        //glBindTexture(GL_TEXTURE_2D, texturaMadeiraEscura);
-        // paredeRack.draw(shader, model);
-
+        glBindTexture(GL_TEXTURE_2D, texturaInox);
+        stove.draw(shader, model);
         // ==============================
         //Quarto cama + rack
         // ==============================
@@ -322,16 +331,11 @@ int main()
         cadeira1.draw(shader, model);
         cadeira1.scale = glm::vec3(0.7f);
 
-        //cadeira2.draw(shader, model);
-        //cadeira2.scale = glm::vec3(0.85f);
-
-        //cadeira3.draw(shader, model);
-        //cadeira3.scale = glm::vec3(0.85f);
-
-        //cadeira4.draw(shader, model);
-
         glBindTexture(GL_TEXTURE_2D, texturaInox);
         geladeira.draw(shader, model);
+
+        glBindTexture(GL_TEXTURE_2D, texturaMadeiraEscura);
+        armario.draw(shader, model);
 
         // ==============================
         //  Sala de jantar (mesa + cadeiras)

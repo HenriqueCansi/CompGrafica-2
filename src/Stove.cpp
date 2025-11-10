@@ -1,9 +1,11 @@
 #include "Stove.h"
 #include <GL/glew.h>
+#include <memory>
+#include "Cube.h"
+#include "Cylinder.h"
 
-extern unsigned int texturaInox;
-extern unsigned int blackTex;
-extern unsigned int texturaMadeiraClara;
+extern unsigned int texturaInox; // metal (placa/forno)
+extern unsigned int blackTex;    // boca preta / vidros
 
 Stove::Stove(glm::vec3 pos)
     : Object(pos, glm::vec3(0.0f), glm::vec3(1.0f), 0.0f)
@@ -13,103 +15,76 @@ Stove::Stove(glm::vec3 pos)
 
 void Stove::init()
 {
-    // corpo principal
+    // corpo / forno (base)
     parts.push_back(std::make_unique<Cube>(
-        glm::vec3(0.0f, 0.5f + 0.0f, 0.0f),
+        glm::vec3(0.0f, 0.35f, 0.0f),    // ligeiro elevação
         glm::vec3(0.0f),
-        glm::vec3(1.0f, 1.0f, 1.0f),
+        glm::vec3(1.0f, 0.7f, 0.6f),     // largura x altura x profundidade
         0.0f));
 
-    // cabeça
+    // tampo (superfície onde ficam as bocas) — mais fino e levemente acima
     parts.push_back(std::make_unique<Cube>(
-        glm::vec3(0.0f, 0.5f + 0.5f + (0.25f / 2.0f), -0.5f + 0.05f),
+        glm::vec3(0.0f, 0.75f, 0.0f),
         glm::vec3(0.0f),
-        glm::vec3(1.0f, 0.25f, 0.1f),
+        glm::vec3(1.05f, 0.08f, 0.65f),
         0.0f));
 
-    // forno
+    // vidro/porta do forno (painel frontal escuro)
     parts.push_back(std::make_unique<Cube>(
-        glm::vec3(0.0f, 0.5f + -0.1f, 0.5f + 0.05f / 2.0f),
+        glm::vec3(0.0f, 0.25f, 0.33f),
         glm::vec3(0.0f),
-        glm::vec3(0.9f, 0.7f, 0.05f),
+        glm::vec3(0.9f, 0.4f, 0.02f),
         0.0f));
 
-    // puxador
-    parts.push_back(std::make_unique<Cube>(
-        glm::vec3(0.0f, 0.5f + 0.2f, 0.5f + 0.05f + 0.05f / 2.0f),
+    // 4 bocas (discos pretos no topo)
+    float hx = 0.35f; // offset x das bocas
+    float hz = 0.20f; // offset z das bocas
+    float bocaRadius = 0.18f;
+    float bocaThickness = 0.04f;
+    float bocaY = 0.75f + 0.04f; // ligeiramente acima do tampo
+
+    parts.push_back(std::make_unique<Cylinder>(
+        glm::vec3(-hx, bocaY, -hz),
         glm::vec3(0.0f),
-        glm::vec3(0.9f, 0.1f, 0.05f),
-        0.0f));
-
-    // 5 bocas
+        glm::vec3(bocaRadius, bocaThickness, bocaRadius),
+        0.0f, 32));
     parts.push_back(std::make_unique<Cylinder>(
-        glm::vec3(-0.325f, 0.5f + 0.5f, -0.225f),
-        glm::vec3(0.0f, 0.0f, 0.0f),
-        glm::vec3(0.25f, 0.05f, 0.25f),
-        0.0f,
-        20));
+        glm::vec3(hx, bocaY, -hz),
+        glm::vec3(0.0f),
+        glm::vec3(bocaRadius, bocaThickness, bocaRadius),
+        0.0f, 32));
     parts.push_back(std::make_unique<Cylinder>(
-        glm::vec3(-0.325f, 0.5f + 0.5f, 0.325f),
-        glm::vec3(0.0f, 0.0f, 0.0f),
-        glm::vec3(0.25f, 0.05f, 0.25f),
-        0.0f,
-        20));
+        glm::vec3(-hx, bocaY, hz),
+        glm::vec3(0.0f),
+        glm::vec3(bocaRadius, bocaThickness, bocaRadius),
+        0.0f, 32));
     parts.push_back(std::make_unique<Cylinder>(
-        glm::vec3(0.325f, 0.5f + 0.5f, -0.225f),
-        glm::vec3(0.0f, 0.0f, 0.0f),
-        glm::vec3(0.25f, 0.05f, 0.25f),
-        0.0f,
-        20));
-    parts.push_back(std::make_unique<Cylinder>(
-        glm::vec3(0.325f, 0.5f + 0.5f, 0.325f),
-        glm::vec3(0.0f, 0.0f, 0.0f),
-        glm::vec3(0.25f, 0.05f, 0.25f),
-        0.0f,
-        20));
-    parts.push_back(std::make_unique<Cylinder>(
-        glm::vec3(0.0f, 0.5f + 0.5f, 0.045f),
-        glm::vec3(0.0f, 0.0f, 0.0f),
-        glm::vec3(0.25f, 0.05f, 0.25f),
-        0.0f,
-        20));
-
-    // botões (5)
-    for (int i = 0; i < 5; ++i)
-    {
-        parts.push_back(std::make_unique<Cylinder>(
-            glm::vec3(-0.4f + i * 0.2f, 0.5f + 0.375f, 0.5f),
-            glm::vec3(0.0f, 90.0f, 0.0f),
-            glm::vec3(0.15f, 0.05f, 0.15f),
-            0.0f,
-            20));
-    }
+        glm::vec3(hx, bocaY, hz),
+        glm::vec3(0.0f),
+        glm::vec3(bocaRadius, bocaThickness, bocaRadius),
+        0.0f, 32));
 }
 
 void Stove::draw(Shader &shader, glm::mat4 model)
 {
     model = glm::translate(model, position);
-    model = glm::scale(model, scale);
 
-    // Steel
+    model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+
+    // corpo / forno e tampo em inox
     glBindTexture(GL_TEXTURE_2D, texturaInox);
-    parts[0]->draw(shader, model);
-    parts[1]->draw(shader, model);
+    parts[0]->draw(shader, model); // corpo
+    parts[1]->draw(shader, model); // tampo
 
-    // Black
+    // porta/vidro do forno em preto
     glBindTexture(GL_TEXTURE_2D, blackTex);
     parts[2]->draw(shader, model);
-    parts[3]->draw(shader, model);
-    parts[4]->draw(shader, model);
-    parts[5]->draw(shader, model);
-    parts[6]->draw(shader, model);
-    parts[7]->draw(shader, model);
-    parts[8]->draw(shader, model);
 
-    // Steel
-    glBindTexture(GL_TEXTURE_2D, texturaInox);
-    parts[9]->draw(shader, model);
-    parts[10]->draw(shader, model);
-    parts[11]->draw(shader, model);
-    parts[12]->draw(shader, model);
-    parts[13]->draw(shader, model);
+    // bocas em preto (discos)
+    for (int i = 3; i < (int)parts.size(); ++i)
+    {
+        parts[i]->draw(shader, model);
+    }
 }

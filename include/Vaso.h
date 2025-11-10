@@ -5,10 +5,10 @@
 #include <vector>
 #include <memory>
 
-class Table : public Object {
+class Vaso : public Object
+{
 public:
-    Table(glm::vec3 pos = glm::vec3(0.0f));
-
+    Vaso(glm::vec3 pos = glm::vec3(0.0f));
     void draw(Shader &shader, glm::mat4 model) override;
 
 private:

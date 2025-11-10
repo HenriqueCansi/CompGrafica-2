@@ -5,10 +5,10 @@
 #include <vector>
 #include <memory>
 
-class Toilet : public Object
+class Pia : public Object
 {
 public:
-    Toilet(glm::vec3 pos = glm::vec3(0.0f));
+    Pia(glm::vec3 pos = glm::vec3(0.0f));
     void draw(Shader &shader, glm::mat4 model) override;
 
 private:

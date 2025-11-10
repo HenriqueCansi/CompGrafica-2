@@ -1,16 +1,16 @@
-#include "Toilet.h"
+#include "Vaso.h"
 #include <GL/glew.h>
 
 extern unsigned int texturaCeramicaBranca;
 extern unsigned int texturaAgua;
 
-Toilet::Toilet(glm::vec3 pos)
+Vaso::Vaso(glm::vec3 pos)
     : Object(pos, glm::vec3(0.0f), glm::vec3(1.0f), 0.0f)
 {
     init();
 }
 
-void Toilet::init()
+void Vaso::init()
 {
     // base
     parts.push_back(std::make_unique<Cylinder>(
@@ -60,7 +60,7 @@ void Toilet::init()
         16));
 }
 
-void Toilet::draw(Shader &shader, glm::mat4 model)
+void Vaso::draw(Shader &shader, glm::mat4 model)
 {
     model = glm::translate(model, position);
     model = glm::scale(model, scale);

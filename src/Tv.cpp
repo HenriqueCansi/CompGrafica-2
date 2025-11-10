@@ -51,7 +51,7 @@ void Tv::init()
 void Tv::draw(Shader &shader, glm::mat4 model)
 {
 
-      model = glm::translate(model, position);
+     model = glm::translate(model, position);
 
     // aplica rotações Euler (graus -> radianos)
     model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
