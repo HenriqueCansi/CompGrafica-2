@@ -1,16 +1,16 @@
-#include "Chair.h"
+#include "Cadeira.h"
 #include <GL/glew.h>
 
 extern unsigned int texturaMadeiraEscura;
 extern unsigned int texturaMadeiraClara;
 
-Chair::Chair(glm::vec3 pos, glm::vec3 scl)
+Cadeira::Cadeira(glm::vec3 pos, glm::vec3 scl)
     : Object(pos, glm::vec3(0.0f), scl, 0.0f)
 {
     init();
 }
 
-void Chair::init() {
+void Cadeira::init() {
     // assento
     parts.push_back(std::make_unique<Cube>(
         glm::vec3(0.0f, 0.5f, 0.0f),
@@ -35,7 +35,7 @@ void Chair::init() {
     parts.push_back(std::make_unique<Cube>(glm::vec3(legX, legY/2, -legZ), glm::vec3(0.0f), glm::vec3(0.1f, legY, 0.1f), 0.0f));
 }
 
-void Chair::draw(Shader &shader, glm::mat4 model) {
+void Cadeira::draw(Shader &shader, glm::mat4 model) {
     model = glm::translate(model, position);
     model = glm::scale(model, scale);
 

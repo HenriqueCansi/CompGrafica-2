@@ -10,7 +10,7 @@
 #include <TriPrism.h>
 #include <Cylinder.h>
 #include <Sphere.h>
-#include <Chair.h>
+#include <Cadeira.h>
 #include <Armario.h>
 #include <Mesa.h>
 #include <Geladeira.h>
@@ -23,7 +23,9 @@
 #include <Rack.h>
 #include <Casa.h>
 
-//  Texturas globais
+ // ==============================
+//   Texturas Globais
+// ==============================
 unsigned int texturaPiso;
 unsigned int texturaPisoBanheiro;
 unsigned int texturaMadeiraEscura;
@@ -66,7 +68,9 @@ unsigned int loadTexture(const char *path)
     return texture;
 }
 
-// Variáveis de câmera
+ // ==============================
+    //  Câmera
+    // ==============================
 glm::vec3 cameraPos = glm::vec3(2.5f, 5.0f, 8.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, -0.2f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -157,7 +161,9 @@ int main()
     shader.use();
     glEnable(GL_DEPTH_TEST);
 
-    // Carrega texturas
+    // ==============================
+    //  Carrega Texturas
+    // ==============================
     texturaPiso = loadTexture("assets/textures/chaoCasa.jpg");
     texturaPisoBanheiro = loadTexture("assets/textures/chaoBanheiro.jpg");
     texturaMadeiraEscura = loadTexture("assets/textures/madeiraEscura.jpg");
@@ -205,22 +211,20 @@ int main()
     Rack rack(glm::vec3(2.8f, 0.0f, 1.0f));
     Tv tv(glm::vec3(2.8f, 0.4f, 1.0f));
 
-    // Rotacionar rack e TV para olhar para a cama
     rack.rotation = glm::vec3(0.0f, 180.0f, 0.0f);
     tv.rotation   = glm::vec3(0.0f, 180.0f, 0.0f);
 
    Cube paredeRack(
-    glm::vec3(2.5f, 0.75f, 1.5f),    // posição: x à direita do rack, z um pouco mais para dentro
-    glm::vec3(0.0f, 0.0f, 0.0f),    // sem rotação
-    glm::vec3(1.0f, 1.5f, 0.1f),    // comprimento no X = 4.0, altura = 2.0, espessura no Z = 0.1
+    glm::vec3(2.5f, 0.75f, 1.5f),
+    glm::vec3(0.0f, 0.0f, 0.0f),
+    glm::vec3(1.0f, 1.5f, 0.1f),
     0.0f
     );
 
-    //Quarto cama + rack
-
-    //Sofa + tapete
+    //Sofa
     Sofa sofa(glm::vec3(0.35f, 0.0f, -3.0f));
 
+    //Tapete
     Cube tapeteSofa(
     glm::vec3(0.35f, 0.04f, -1.5f),
     glm::vec3(0.0f),
@@ -233,12 +237,11 @@ int main()
     Mesa mesa(glm::vec3(-1.5f, 0.0f, 1.5f));
 
     // Cadeiras ao redor
-    Chair cadeira1(glm::vec3(-1.5f, 0.0f, 1.2f));  // esquerda
-    Chair cadeira2(glm::vec3(-0.7f, 0.0f, 1.3f));  // direita
-    Chair cadeira3(glm::vec3(-1.5f, 0.0f, 1.7f));  // atrás
-    Chair cadeira4(glm::vec3(-1.5f, 0.0f, 1.3f));   // frente
+    Cadeira cadeira1(glm::vec3(-1.5f, 0.0f, 1.2f));  // esquerda
+    Cadeira cadeira2(glm::vec3(-0.7f, 0.0f, 1.3f));  // direita
+    Cadeira cadeira3(glm::vec3(-1.5f, 0.0f, 1.7f));  // atrás
+    Cadeira cadeira4(glm::vec3(-1.5f, 0.0f, 1.3f));   // frente
 
-    // Rotacionar as cadeiras para ficarem viradas para a mesa
     cadeira1.rotation = glm::vec3(0.0f, 90.0f, 0.0f);
     cadeira2.rotation = glm::vec3(0.0f, -90.0f, 0.0f);
     cadeira3.rotation = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -299,10 +302,6 @@ int main()
         pisoBanheiro.draw(shader, model);
 
         // ==============================
-        //  Banheiro
-        // ==============================
-
-        // ==============================
         //Quarto cama + rack
         // ==============================
 
@@ -317,9 +316,6 @@ int main()
 
         glBindTexture(GL_TEXTURE_2D, texturaInox);
         stove.draw(shader, model);
-        // ==============================
-        //Quarto cama + rack
-        // ==============================
 
         // ==============================
         //  Sala de jantar (mesa + cadeiras + Geladeira)
@@ -337,9 +333,6 @@ int main()
         glBindTexture(GL_TEXTURE_2D, texturaMadeiraEscura);
         armario.draw(shader, model);
 
-        // ==============================
-        //  Sala de jantar (mesa + cadeiras)
-        // ==============================
 
         // ==============================
         //  Sofa
@@ -351,9 +344,7 @@ int main()
         glBindTexture(GL_TEXTURE_2D, texturaTapete);
         tapeteSofa.draw(shader, model);
 
-        // ==============================
-        //  Sofa
-        // ==============================
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }

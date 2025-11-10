@@ -16,7 +16,7 @@ Armario::Armario(glm::vec3 pos, glm::vec3 rot, glm::vec3 scl, float ang)
 
 void Armario::init()
 {
-    // 🔹 Medidas gerais
+    //Medidas gerais
     float corpoAltura = 1.5f;
     float corpoLargura = 1.2f;
     float corpoProfundidade = 0.45f;
@@ -77,16 +77,16 @@ void Armario::draw(Shader &shader, glm::mat4 model)
     model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0, 0, 1));
     model = glm::scale(model, scale);
 
-    // Corpo (madeira escura)
+    // Corpo
     glBindTexture(GL_TEXTURE_2D, texturaMadeiraEscura);
     parts[0]->draw(shader, model);
 
-    // Portas (madeira clara)
+    // Portas
     glBindTexture(GL_TEXTURE_2D, texturaMadeiraClara);
     parts[1]->draw(shader, model);
     parts[2]->draw(shader, model);
 
-    // Maçanetas (inox)
+    // Maçanetas
     glBindTexture(GL_TEXTURE_2D, texturaInox);
     parts[3]->draw(shader, model);
     parts[4]->draw(shader, model);

@@ -4,9 +4,9 @@
 #include "Cube.h"
 #include "Cylinder.h"
 
-extern unsigned int texturaInox;         // corpo principal
-extern unsigned int blackTex;         // divisórias / sombreamento
-extern unsigned int texturaMadeiraClara;     // detalhes ou puxadores opcionais
+extern unsigned int texturaInox;
+extern unsigned int blackTex;
+extern unsigned int texturaMadeiraClara;
 
 Geladeira::Geladeira(glm::vec3 pos)
     : Object(pos, glm::vec3(0.0f), glm::vec3(1.0f), 0.0f)
@@ -72,7 +72,7 @@ void Geladeira::draw(Shader &shader, glm::mat4 model)
     model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
     model = glm::scale(model, scale);
 
-    // Corpo e portas — textura metálica (inox)
+    // Corpo e portas
     glBindTexture(GL_TEXTURE_2D, texturaInox);
     parts[0]->draw(shader, model); // corpo
     parts[1]->draw(shader, model); // porta superior
@@ -83,7 +83,7 @@ void Geladeira::draw(Shader &shader, glm::mat4 model)
     glBindTexture(GL_TEXTURE_2D, blackTex);
     parts[3]->draw(shader, model);
 
-    // Puxadores embutidos — leve contraste (madeira clara ou preto)
+    // Puxadores embutidos
     glBindTexture(GL_TEXTURE_2D, texturaMadeiraClara);
     parts[5]->draw(shader, model);
     parts[6]->draw(shader, model);

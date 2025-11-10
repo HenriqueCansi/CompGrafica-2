@@ -82,7 +82,7 @@ void Mesa::init()
     float poteHeight = 0.28f;
     float poteY = topHeight + topThickness * 0.5f + poteHeight * 0.5f;
 
-    // base do pote (disco fino)
+    // base do pote // qeijo (disco fino)
     parts.push_back(std::make_unique<Cylinder>(
         glm::vec3(0.0f, poteY - poteHeight * 0.5f - 0.03f, 0.0f),
         glm::vec3(0.0f),

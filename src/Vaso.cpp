@@ -73,7 +73,7 @@ void Vaso::draw(Shader &shader, glm::mat4 model)
     parts[3]->draw(shader, model);
     parts[4]->draw(shader, model);
 
-    // Water ripple
+    // agua
     glBindTexture(GL_TEXTURE_2D, texturaAgua);
     parts[5]->draw(shader, model);
 }

@@ -41,14 +41,14 @@ void Sofa::init()
 
     // Almofada 1
     parts.push_back(std::make_unique<Cube>(
-        glm::vec3(-0.65f, 0.45f, 0.05f),
+        glm::vec3(-0.65f, 0.50f, 0.05f),
         glm::vec3(0.0f),
         glm::vec3(1.0f, 0.3f, 0.9f),
         0.0f));
 
     // Almofada 2
     parts.push_back(std::make_unique<Cube>(
-        glm::vec3(0.65f, 0.45f, 0.05f),
+        glm::vec3(0.65f, 0.50f, 0.05f),
         glm::vec3(0.0f),
         glm::vec3(1.0f, 0.3f, 0.9f),
         0.0f));

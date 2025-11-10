@@ -13,14 +13,14 @@ Bed::Bed(glm::vec3 pos)
 
 void Bed::init()
 {
-    // Estrutura da base de madeira (levemente flutuante)
+    // Estrutura da base de madeira
     parts.push_back(std::make_unique<Cube>(
         glm::vec3(0.0f, 0.25f, 0.0f),
         glm::vec3(0.0f),
         glm::vec3(1.5f, 0.2f, 2.8f),
         0.0f));
 
-    // Cabeceira estofada (alta e com espessura)
+    // Cabeceira estofada
     parts.push_back(std::make_unique<Cube>(
         glm::vec3(0.0f, 0.8f, -1.45f),
         glm::vec3(0.0f),
@@ -48,14 +48,14 @@ void Bed::init()
         glm::vec3(0.5f, 0.18f, 0.7f),
         0.0f));
 
-    // Coberta (ligeiramente dobrada, cobre metade do colchão)
+    // Coberta (dobrada, cobre metade do colchão)
     parts.push_back(std::make_unique<Cube>(
         glm::vec3(0.0f, 0.70f, 0.65f),
         glm::vec3(-3.0f, 0.0f, 0.0f),
         glm::vec3(1.5f, 0.22f, 1.5f),
         0.0f));
 
-    // Base inferior de apoio (leve sombra sob a cama)
+    // Base inferior de apoio
     parts.push_back(std::make_unique<Cube>(
         glm::vec3(0.0f, 0.05f, 0.0f),
         glm::vec3(0.0f),

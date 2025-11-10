@@ -9,18 +9,10 @@ Object::Object()
 Object::Object(glm::vec3 pos, glm::vec3 rot, glm::vec3 scl, float angle)
     : position(pos), rotation(rot), scale(scl), angle(angle)
 {
-    // construtor básico — inicializa os valores recebidos
+
 }
 
 void Object::draw(Shader& shader, glm::mat4 parentTransform)
 {
-    // Implementação base vazia — serve para ser sobrescrita nas classes filhas
-    // (Cube, Banrisul, etc.)
 
-    // Exemplo: se quiser permitir que as classes derivadas chamem o comportamento padrão:
-    // glm::mat4 model = parentTransform;
-    // model = glm::translate(model, position);
-    // model = glm::rotate(model, glm::radians(angle), rotation);
-    // model = glm::scale(model, scale);
-    // shader.setMat4("model", model);
 }
