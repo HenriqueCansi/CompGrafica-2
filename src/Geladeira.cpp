@@ -5,7 +5,7 @@
 #include "Cylinder.h"
 
 extern unsigned int texturaInox;
-extern unsigned int blackTex;
+extern unsigned int texturaPreto;
 extern unsigned int texturaMadeiraClara;
 
 Geladeira::Geladeira(glm::vec3 pos)
@@ -80,7 +80,7 @@ void Geladeira::draw(Shader &shader, glm::mat4 model)
     parts[4]->draw(shader, model); // rodapé
 
     // Divisória preta entre portas
-    glBindTexture(GL_TEXTURE_2D, blackTex);
+    glBindTexture(GL_TEXTURE_2D, texturaPreto);
     parts[3]->draw(shader, model);
 
     // Puxadores embutidos

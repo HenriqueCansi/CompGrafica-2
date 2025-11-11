@@ -5,7 +5,7 @@
 #include "Cylinder.h"
 
 extern unsigned int texturaInox; // metal (placa/forno)
-extern unsigned int blackTex;    // boca preta / vidros
+extern unsigned int texturaPreto;    // boca preta / vidros
 
 Stove::Stove(glm::vec3 pos)
     : Object(pos, glm::vec3(0.0f), glm::vec3(1.0f), 0.0f)
@@ -79,7 +79,7 @@ void Stove::draw(Shader &shader, glm::mat4 model)
     parts[1]->draw(shader, model); // tampo
 
     // porta/vidro do forno em preto
-    glBindTexture(GL_TEXTURE_2D, blackTex);
+    glBindTexture(GL_TEXTURE_2D, texturaPreto);
     parts[2]->draw(shader, model);
 
     // bocas em preto (discos)

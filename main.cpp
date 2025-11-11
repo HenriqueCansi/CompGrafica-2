@@ -22,8 +22,10 @@
 #include <Pia.h>
 #include <Rack.h>
 #include <Casa.h>
+#include <vector>
+#include <Arvore.h>
 
- // ==============================
+// ==============================
 //   Texturas Globais
 // ==============================
 unsigned int texturaPiso;
@@ -31,7 +33,7 @@ unsigned int texturaPisoBanheiro;
 unsigned int texturaMadeiraEscura;
 unsigned int texturaMadeiraClara;
 unsigned int texturaInox;
-unsigned int blackTex;
+unsigned int texturaPreto;
 unsigned int tecidoSofa;
 unsigned int texturaVerdePeludo;
 unsigned int texturaTecidoBranco;
@@ -39,6 +41,10 @@ unsigned int texturaCeramicaBranca;
 unsigned int texturaAgua;
 unsigned int texturaPoteAmarelo;
 unsigned int texturaTapete;
+unsigned int texturaGrama;
+unsigned int texturaPiscina;
+unsigned int texturaArvore;
+unsigned int texturaEspelho;
 
 
 unsigned int loadTexture(const char *path)
@@ -68,9 +74,23 @@ unsigned int loadTexture(const char *path)
     return texture;
 }
 
- // ==============================
-    //  Câmera
-    // ==============================
+std::vector<Cube> criarTerrenoGrama(int largura, int profundidade, float tamanhoBloco)
+{
+    std::vector<Cube> terreno;
+    for (int x = -largura / 2; x < largura / 2; x++)
+    {
+        for (int z = -profundidade / 2; z < profundidade / 2; z++)
+        {
+            glm::vec3 pos(x * tamanhoBloco, -0.03f, z * tamanhoBloco);
+            terreno.emplace_back(pos, glm::vec3(0.0f), glm::vec3(tamanhoBloco, 0.05f, tamanhoBloco), -0.5f);
+        }
+    }
+    return terreno;
+}
+
+// ==============================
+//  Câmera
+// ==============================
 glm::vec3 cameraPos = glm::vec3(2.5f, 5.0f, 8.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, -0.2f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -169,7 +189,7 @@ int main()
     texturaMadeiraEscura = loadTexture("assets/textures/madeiraEscura.jpg");
     texturaMadeiraClara = loadTexture("assets/textures/madeiraClara.jpg");
     texturaInox = loadTexture("assets/textures/inox.jpg");
-    blackTex = loadTexture("assets/textures/preto.jpg");
+    texturaPreto = loadTexture("assets/textures/preto.jpg");
     tecidoSofa = loadTexture("assets/textures/tecido_sofa.jpg");
     texturaVerdePeludo = loadTexture("assets/textures/verde-peludo.jpg");
     texturaTecidoBranco = loadTexture("assets/textures/tecidoBranco.jpg");
@@ -177,6 +197,10 @@ int main()
     texturaAgua = loadTexture("assets/textures/agua.jpg");
     texturaPoteAmarelo = loadTexture("assets/textures/Amarelo.jpg");
     texturaTapete = loadTexture("assets/textures/tapete.jpg");
+    texturaGrama = loadTexture("assets/textures/Grama.jpg");
+    texturaPiscina = loadTexture("assets/textures/agua_piscina.jpg");
+    texturaArvore = loadTexture("assets/textures/TexturaArvore.jpg");
+    texturaEspelho = loadTexture("assets/textures/texturaEspelho.jpg");
 
     shader.setInt("texture1", 0);
 
@@ -186,6 +210,8 @@ int main()
     Casa casa(glm::vec3(0.0f, 0.0f, 0.0f));
     casa.scale = glm::vec3(0.5f);
 
+    // Terreno de grama ao redor da casa
+    auto terrenoGrama = criarTerrenoGrama(50, 50, 1.0f);
     // ==============================
     //  Banheiro
     // ==============================
@@ -199,9 +225,9 @@ int main()
 
 
     Cube paredeBanheiro(glm::vec3(-1.2f, 0.75f, -2.5f),
-    glm::vec3(0.0f),
-    glm::vec3(0.1f, 1.5f, 2.5f),
-    0.0f);
+                        glm::vec3(0.0f),
+                        glm::vec3(0.1f, 1.5f, 2.5f),
+                        0.0f);
 
     // ==============================
     //  Quarto
@@ -214,22 +240,34 @@ int main()
     rack.rotation = glm::vec3(0.0f, 180.0f, 0.0f);
     tv.rotation   = glm::vec3(0.0f, 180.0f, 0.0f);
 
-   Cube paredeRack(
-    glm::vec3(2.5f, 0.75f, 1.5f),
-    glm::vec3(0.0f, 0.0f, 0.0f),
-    glm::vec3(1.0f, 1.5f, 0.1f),
-    0.0f
+    Cube paredeRack(
+        glm::vec3(2.5f, 0.75f, 1.5f),
+        glm::vec3(0.0f, 0.0f, 0.0f),
+        glm::vec3(1.0f, 1.5f, 0.1f),
+        0.0f
     );
 
     //Sofa
     Sofa sofa(glm::vec3(0.35f, 0.0f, -3.0f));
 
+    // ==============================
+    //  Quadro na parede
+    // ==============================
+    Cube quadroParede(
+        glm::vec3(-3.45f, 1.6f, 1.5f),   // posição — ajusta conforme o tamanho do armário
+        glm::vec3(0.0f, 90.0f, 0.0f),    // rotacionado para "encarar" o centro da casa
+        glm::vec3(1.0f, 0.7f, 0.05f),
+        0.0f
+    );
+    quadroParede.rotation = glm::vec3(0.0f, 90.0f, 0.0f);
+
+
     //Tapete
     Cube tapeteSofa(
-    glm::vec3(0.35f, 0.04f, -1.5f),
-    glm::vec3(0.0f),
-    glm::vec3(2.0f, 0.02f, 1.0f),
-    0.0f);
+        glm::vec3(0.35f, 0.04f, -1.5f),
+        glm::vec3(0.0f),
+        glm::vec3(2.0f, 0.02f, 1.0f),
+        0.0f);
 
     //Sofa + tapete + geladeira
 
@@ -259,6 +297,49 @@ int main()
     armario.scale = glm::vec3(0.9f);
     armario.rotation = glm::vec3(0.0f, 90.0f, 0.0f);
 
+    // ==============================
+    //  Piscina
+    // ==============================
+    Cube piscina(
+        glm::vec3(7.0f, -0.02f, 0.0f),  // posição (um pouco rebaixada)
+        glm::vec3(-90.0f),               // sem rotação
+        glm::vec3(3.0f, 0.05f, 5.0f),  // tamanho da piscina
+        0.0f
+       );
+         // Bordas brancas (azulejo ou cerâmica)
+    Cube bordaNorte(
+        glm::vec3(7.0f, 0.0f, -2.55f),    // parte superior
+        glm::vec3(0.0f),
+        glm::vec3(3.2f, 0.08f, 0.2f),
+        0.0f
+    );
+    Cube bordaSul(
+        glm::vec3(7.0f, 0.0f, 2.55f),     // parte inferior
+        glm::vec3(0.0f),
+        glm::vec3(3.2f, 0.08f, 0.2f),
+        0.0f
+    );
+    Cube bordaLeste(
+        glm::vec3(8.6f, 0.0f, 0.0f),      // lado direito
+        glm::vec3(0.0f),
+        glm::vec3(0.2f, 0.08f, 5.0f),
+        0.0f
+    );
+    Cube bordaOeste(
+        glm::vec3(5.4f, 0.0f, 0.0f),      // lado esquerdo
+        glm::vec3(0.0f),
+        glm::vec3(0.2f, 0.08f, 5.0f),
+        0.0f
+    );
+
+        // Árvores ao redor
+       std::vector<Arvore> arvores;
+        arvores.emplace_back(glm::vec3(10.0f, 0.0f, 0.0f));
+        arvores.emplace_back(glm::vec3(9.0f, 0.0f, 3.0f));
+        arvores.emplace_back(glm::vec3(8.0f, 0.0f, -3.0f));
+        arvores.emplace_back(glm::vec3(6.0f, 0.0f, 5.0f));
+        arvores.emplace_back(glm::vec3(5.0f, 0.0f, -4.5f));
+
     while (!glfwWindowShouldClose(window))
     {
         float currentFrame = glfwGetTime();
@@ -267,7 +348,7 @@ int main()
 
         processInput(window);
 
-        glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
+        glClearColor(0.5f, 0.7f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         shader.use();
@@ -292,7 +373,7 @@ int main()
         vaso.draw(shader, model);
         pia.draw(shader, model);
 
-         //Parede do banheiro
+        //Parede do banheiro
 
         glBindTexture(GL_TEXTURE_2D, texturaMadeiraEscura); // ou stoneTex, se quiser um visual mais sólido
         paredeBanheiro.draw(shader, model);
@@ -308,7 +389,7 @@ int main()
         glBindTexture(GL_TEXTURE_2D, texturaMadeiraClara);
         rack.draw(shader, model);
 
-        glBindTexture(GL_TEXTURE_2D, blackTex);
+        glBindTexture(GL_TEXTURE_2D, texturaPreto);
         tv.draw(shader, model);
 
         glBindTexture(GL_TEXTURE_2D, texturaTecidoBranco);
@@ -344,6 +425,25 @@ int main()
         glBindTexture(GL_TEXTURE_2D, texturaTapete);
         tapeteSofa.draw(shader, model);
 
+        // ==============================
+        //  Terreno de grama
+        // ==============================
+        glBindTexture(GL_TEXTURE_2D, texturaGrama);
+        for (auto &bloco : terrenoGrama)
+        bloco.draw(shader, model);
+
+        glBindTexture(GL_TEXTURE_2D, texturaPiscina);
+        piscina.draw(shader, model);
+
+        // Bordas brancas
+        glBindTexture(GL_TEXTURE_2D, texturaCeramicaBranca);
+        bordaNorte.draw(shader, model);
+        bordaSul.draw(shader, model);
+        bordaLeste.draw(shader, model);
+        bordaOeste.draw(shader, model);
+
+        //glBindTexture(GL_TEXTURE_2D, texturaEspelho);
+       // quadroParede.draw(shader, model);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

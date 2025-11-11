@@ -4,7 +4,7 @@
 #include "Cube.h"  // mesmo que as outras classes usam (para reconhecer Cube)
 
 extern unsigned int texturaMadeiraEscura;
-extern unsigned int blackTex;
+extern unsigned int texturaPreto;
 
 Rack::Rack(glm::vec3 pos)
     : Object(pos, glm::vec3(0.0f), glm::vec3(1.0f), 0.0f)
@@ -73,6 +73,6 @@ void Rack::draw(Shader &shader, glm::mat4 model)
     parts[4]->draw(shader, model);
 
     // Fundo preto
-    glBindTexture(GL_TEXTURE_2D, blackTex);
+    glBindTexture(GL_TEXTURE_2D, texturaPreto);
     parts[5]->draw(shader, model);
 }

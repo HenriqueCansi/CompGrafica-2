@@ -1,0 +1,15 @@
+#pragma once
+#include "Object.h"
+#include "Cube.h"
+#include "Cylinder.h"
+#include <vector>
+#include <memory>
+
+class Quadro : public Object {
+public:
+    Quadro(glm::vec3 pos, glm::vec3 rot = glm::vec3(0.0f),
+           glm::vec3 scl = glm::vec3(1.0f), float ang = 0.0f);
+private:
+    std::vector<std::unique_ptr<Object>> parts;
+    void init();
+};

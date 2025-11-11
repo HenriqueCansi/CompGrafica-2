@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 
 extern unsigned int texturaInox;  // moldura e suporte
-extern unsigned int blackTex;  // tela
+extern unsigned int texturaPreto;  // tela
 
 Tv::Tv(glm::vec3 pos)
     : Object(pos, glm::vec3(0.0f), glm::vec3(1.0f), 0.0f)
@@ -71,6 +71,6 @@ void Tv::draw(Shader &shader, glm::mat4 model)
     parts[4]->draw(shader, model);  // pedestal inferior
 
     // Tela preta
-    glBindTexture(GL_TEXTURE_2D, blackTex);
+    glBindTexture(GL_TEXTURE_2D, texturaPreto);
     parts[1]->draw(shader, model);
 }
